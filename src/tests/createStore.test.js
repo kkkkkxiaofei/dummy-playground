@@ -1,4 +1,5 @@
 import createStore from '../createStore';
+import applyMiddleware from '../applyMiddleware';
 import { INIT } from '../ActionTypes';
 
 describe('Create Store', () => {
@@ -47,5 +48,32 @@ describe('Create Store', () => {
     expect(mockListener1.mock.calls.length).toBe(1);
     expect(mockListener2.mock.calls.length).toBe(1);
   });
+  
+  it('create store via enhancer', () => {
+    const reducer = $ => $;
+    const mockFn1 = jest.fn($ => $);
+    const mockFn2 = jest.fn($ => $);
+    const middleware1 = store => next => action => {
+      mockFn1(action);
+      return next(action);
+    };
+    const middleware2 = store => next => action => {
+      mockFn2(action);
+      return next(action);
+    };
+    
+    const enhancer = applyMiddleware(middleware1, middleware2);
+
+    const { dispatch } = createStore(reducer, null, enhancer);
+
+    const action = { type: 'TEST_ACTION' };
+
+    dispatch(action);
+
+    expect(mockFn1.mock.calls.length).toBe(1);
+    expect(mockFn2.mock.calls.length).toBe(1);
+    expect(mockFn1.mock.calls[0][0]).toBe(action);
+    expect(mockFn2.mock.calls[0][0]).toBe(action);
+   });
 
 });

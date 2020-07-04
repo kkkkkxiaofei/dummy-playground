@@ -1,7 +1,11 @@
 import { INIT, REPLACE } from "./ActionTypes";
 
-export default reducer => {
-  let state = null, 
+const createStore = (reducer, initState, enhancer) => {
+  if (typeof enhancer === 'function') {
+    return enhancer(createStore)(reducer, initState);
+  }
+
+  let state = initState, 
   listeners = [],
   currenReducer = reducer;
   
@@ -17,12 +21,12 @@ export default reducer => {
     if (action) {
 
       if (action.type === INIT) {
-        state = currenReducer(null, { type: INIT }) || {};
+        state = currenReducer(initState, { type: INIT });
         return;
       }
 
       // include @@REPLACE 
-      state = currenReducer(state, action) || {};
+      state = currenReducer(state, action);
       
       listeners.forEach(listener => listener());
     }
@@ -42,3 +46,5 @@ export default reducer => {
     replaceReducer
   }
 }
+
+export default createStore;
