@@ -1,7 +1,12 @@
+import { INIT, REPLACE } from "./ActionTypes";
+
 export default reducer => {
-  let state = null, listeners = [];
+  let state = null, 
+  listeners = [],
+  currenReducer = reducer;
   
   const getState = () => state;
+
   const subscribe = listener => {
     listeners.push(listener);
     //unsubsribe
@@ -9,13 +14,31 @@ export default reducer => {
   }
 
   const dispatch = action => {
-    state = reducer(state, action);
-    listeners.forEach(listener => listener());
+    if (action) {
+
+      if (action.type === INIT) {
+        state = currenReducer(null, { type: INIT }) || {};
+        return;
+      }
+
+      // include @@REPLACE 
+      state = currenReducer(state, action) || {};
+      
+      listeners.forEach(listener => listener());
+    }
+  }
+
+  const replaceReducer = newReducer => {
+    currenReducer = newReducer;
+    dispatch({ type: REPLACE });
   };
+
+  dispatch({ type: INIT });
 
   return {
     dispatch,
     getState,
-    subscribe
+    subscribe,
+    replaceReducer
   }
 }

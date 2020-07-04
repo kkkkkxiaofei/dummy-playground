@@ -1,4 +1,5 @@
 import createStore from '../createStore';
+import { INIT } from '../ActionTypes';
 
 describe('Create Store', () => {
   it('store check', () => {
@@ -13,12 +14,13 @@ describe('Create Store', () => {
     const mockReducer = jest.fn($ => $);
     const { dispatch } = createStore(mockReducer);
 
-    const action = {type: 'TEST_ACTION'};
+    const action = { type: 'TEST_ACTION' };
 
     dispatch(action);
 
-    expect(mockReducer.mock.calls.length).toBe(1);
-    expect(mockReducer.mock.calls[0][1]).toBe(action);
+    expect(mockReducer.mock.calls.length).toBe(2);
+    expect(mockReducer.mock.calls[0][1]).toEqual({ type: INIT });
+    expect(mockReducer.mock.calls[1][1]).toBe(action);
 
   });
 
