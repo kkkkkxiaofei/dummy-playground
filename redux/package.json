@@ -2,7 +2,7 @@
   "name": "@dummmy/redux",
   "version": "1.0.0",
   "description": "dummy redux is the min implementation of offcial redux",
-  "main": "./index.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest"
   },
