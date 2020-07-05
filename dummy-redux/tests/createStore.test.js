@@ -1,6 +1,6 @@
-import createStore from '../createStore';
-import applyMiddleware from '../applyMiddleware';
-import { INIT } from '../ActionTypes';
+import createStore from '../src/createStore';
+import applyMiddleware from '../src/applyMiddleware';
+import { INIT } from '../src/ActionTypes';
 
 describe('Create Store', () => {
   it('store check', () => {

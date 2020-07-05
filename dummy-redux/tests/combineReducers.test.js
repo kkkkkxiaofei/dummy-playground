@@ -1,4 +1,4 @@
-import combineReducers from '../combineReducers';
+import combineReducers from '../src/combineReducers';
 
 describe('Combine Reducers', () => {
   it('signle reducer', () => {
