@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@dummmy/redux": "^1.0.0",
     "react": "^16.13.1"
   }
 }
