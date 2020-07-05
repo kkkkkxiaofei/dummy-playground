@@ -1,6 +1,6 @@
 {
   "name": "@dummmy/redux",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "dummy redux is the min implementation of offcial redux",
   "main": "index.js",
   "scripts": {
