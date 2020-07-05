@@ -1,12 +1,14 @@
 {
   "name": "@dummmy/redux",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "dummy redux is the min implementation of offcial redux",
-  "main": "index.js",
+  "main": "./libs/index.js",
   "scripts": {
     "test": "jest"
   },
-  "files": ["src"],
+  "files": [
+    "libs"
+  ],
   "author": "kkkkkxiaofei/pursue",
   "license": "MIT",
   "devDependencies": {
