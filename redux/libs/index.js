@@ -3,7 +3,7 @@ import compose from './compose';
 import applyMiddleware from './applyMiddleware';
 import combineReducers from './combineReducers';
 
-export default {
+export {
   createStore,
   compose,
   applyMiddleware,

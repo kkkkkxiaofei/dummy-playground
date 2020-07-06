@@ -1,10 +1,15 @@
 import { INIT, REPLACE } from "./ActionTypes";
 
 const createStore = (reducer, initState, enhancer) => {
-  if (typeof enhancer === 'function') {
-    return enhancer(createStore)(reducer, initState);
+  if (typeof initState === 'function' && typeof enhancer === 'undefined') {
+    enhancer = initState;
+    initState = undefined;
   }
 
+  if (enhancer) {
+    return enhancer(createStore)(reducer, initState || {});
+  }
+  
   let state = initState, 
   listeners = [],
   currenReducer = reducer;

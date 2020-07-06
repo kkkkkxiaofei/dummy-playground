@@ -1,8 +1,8 @@
 import compose from './compose';
 
 export default (...middlewares) => {
-  const enhancer = createStore => (reducer, initState) => {
-    const store = createStore(reducer, initState);
+  const enhancer = createStore => (...args) => {
+    const store = createStore(...args);
 
     let dispatch = store.dispatch;
     /**
@@ -18,7 +18,6 @@ export default (...middlewares) => {
      *   after compose:
      *   
      *   (...arg) => next1(next2(next3(...arg)))
-     * 
      * 
      */
     const nexters = middlewares.map(middleware => middleware(store));

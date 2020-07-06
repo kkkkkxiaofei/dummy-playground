@@ -1,6 +1,2 @@
-const ActionTypes = {
-  INIT: '@@INIT',
-  REPLACE: '@@REPLACE',
-};
-
-export default ActionTypes;
+export const INIT = '@@INIT';
+export const REPLACE = '@@REPLACE';
