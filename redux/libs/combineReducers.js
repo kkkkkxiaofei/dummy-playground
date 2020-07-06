@@ -10,7 +10,7 @@ export default reducersMap => {
     .reduce((result, key) => ({ ...result, [key]: reducersMap[key] }), finalReducer);
 
   // combination
-  return (state, action) => {
+  return (state = {}, action) => {
     const finalReducerKeys = Object.keys(finalReducer);
 
     let hasChanged = false;
