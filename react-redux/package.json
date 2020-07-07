@@ -1,6 +1,6 @@
 {
   "name": "@dummmy/react-redux",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "mini implementation for react-redux",
   "main": "./libs/index.js",
   "files": [
@@ -22,6 +22,10 @@
     "react-redux implementation"
   ],
   "homepage": "git@github.com:kkkkkxiaofei/dummy-playground.git",
+  "devDependencies": {
+    "@dummmy/redux": "^1.0.0",
+    "react": "^16.13.1"
+  },
   "peerDependencies": {
     "@dummmy/redux": "^1.0.0",
     "react": "^16.13.1"
