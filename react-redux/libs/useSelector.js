@@ -5,13 +5,13 @@ const refEqual = (a, b) => a === b;
 
 const useSelector = (selector, equalFn = refEqual) => {
   const { store } = useContext(ReactReduxContext);
-  const storeState = store.geState();
+  const storeState = store.getState();
   const latestSelector = useRef();
   const latestSelectorState = useRef();
   let selectorState;
 
-  const forceRender = useReducer(i => i + 1, 0);
-
+  const [, forceRender] = useReducer(i => i + 1, 0);
+  console.log('======')
   if (selector !== latestSelector.current || selectorState !== latestSelectorState.current) {
     selectorState = selector(storeState);
   }
@@ -22,7 +22,8 @@ const useSelector = (selector, equalFn = refEqual) => {
   });
 
   const check = () => {
-    if (equalFn(selectorState, selector(store.geState())))
+    console.log(equalFn(selectorState, selector(store.getState())))
+    if (equalFn(selectorState, selector(store.getState())))
       return;
     
     forceRender();
