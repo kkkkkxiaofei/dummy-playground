@@ -1,15 +1,28 @@
 {
-  "name": "react-redux",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "@dummmy/react-redux",
+  "version": "1.0.1",
+  "description": "mini implementation for react-redux",
+  "main": "./libs/index.js",
+  "files": [
+    "libs"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
+  "author": "kkkkkxiaofei/pursue",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:kkkkkxiaofei/dummy-playground.git"
+  },
+  "keywords": [
+    "react-redux",
+    "dummy react-redux",
+    "mini react-redux",
+    "react-redux implementation"
+  ],
+  "homepage": "git@github.com:kkkkkxiaofei/dummy-playground.git",
+  "peerDependencies": {
     "@dummmy/redux": "^1.0.0",
     "react": "^16.13.1"
   }
