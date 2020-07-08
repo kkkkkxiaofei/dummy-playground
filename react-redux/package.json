@@ -1,6 +1,6 @@
 {
   "name": "@dummmy/react-redux",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "mini implementation for react-redux",
   "main": "./es/index.js",
   "module": "./es/index.js",
