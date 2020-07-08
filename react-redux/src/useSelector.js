@@ -11,7 +11,7 @@ const useSelector = (selector, equalFn = refEqual) => {
   let selectorState;
 
   const [, forceRender] = useReducer(i => i + 1, 0);
-  console.log('======')
+
   if (selector !== latestSelector.current || selectorState !== latestSelectorState.current) {
     selectorState = selector(storeState);
   }
@@ -22,7 +22,6 @@ const useSelector = (selector, equalFn = refEqual) => {
   });
 
   const check = () => {
-    console.log(equalFn(selectorState, selector(store.getState())))
     if (equalFn(selectorState, selector(store.getState())))
       return;
     
