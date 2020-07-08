@@ -2,12 +2,14 @@
   "name": "@dummmy/react-redux",
   "version": "1.0.2",
   "description": "mini implementation for react-redux",
-  "main": "./libs/index.js",
+  "main": "./es/index.js",
+  "module": "./es/index.js",
   "files": [
-    "libs"
+    "src",
+    "es"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src --out-dir es"
   },
   "author": "kkkkkxiaofei/pursue",
   "license": "MIT",
@@ -23,6 +25,10 @@
   ],
   "homepage": "git@github.com:kkkkkxiaofei/dummy-playground.git",
   "devDependencies": {
+    "@babel/cli": "^7.10.4",
+    "@babel/core": "^7.10.4",
+    "@babel/plugin-transform-react-jsx": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
     "@dummmy/redux": "^1.0.0",
     "react": "^16.13.1"
   },
