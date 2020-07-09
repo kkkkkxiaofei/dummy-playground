@@ -9,7 +9,8 @@
     "es"
   ],
   "scripts": {
-    "build": "babel src --out-dir es"
+    "build:es": "TYPE=es babel src --out-dir es",
+    "build:cjs": "TYPE=cjs babel src --out-dir lib"
   },
   "author": "kkkkkxiaofei/pursue",
   "license": "MIT",
