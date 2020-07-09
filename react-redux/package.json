@@ -2,7 +2,7 @@
   "name": "@dummmy/react-redux",
   "version": "1.0.4",
   "description": "mini implementation for react-redux",
-  "main": "./es/index.js",
+  "main": "./lib/index.js",
   "module": "./es/index.js",
   "files": [
     "src",
