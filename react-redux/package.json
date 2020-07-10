@@ -1,12 +1,13 @@
 {
   "name": "@dummmy/react-redux",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "mini implementation for react-redux",
   "main": "./lib/index.js",
   "module": "./es/index.js",
   "files": [
     "src",
-    "es"
+    "es",
+    "lib"
   ],
   "scripts": {
     "build:es": "TYPE=es babel src --out-dir es",
