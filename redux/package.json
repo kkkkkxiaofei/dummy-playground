@@ -2,12 +2,17 @@
   "name": "@dummmy/redux",
   "version": "1.0.4",
   "description": "dummy redux is the min implementation of offcial redux",
-  "main": "./libs/index.js",
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build:es": "TYPE=es babel src --out-dir es",
+    "build:cjs": "TYPE=cjs babel src --out-dir lib"
   },
   "files": [
-    "libs"
+    "lib",
+    "es",
+    "src"
   ],
   "author": "kkkkkxiaofei/pursue",
   "license": "MIT",
