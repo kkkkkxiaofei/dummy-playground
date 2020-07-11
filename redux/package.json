@@ -1,11 +1,12 @@
 {
   "name": "@dummmy/redux",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "dummy redux is the min implementation of offcial redux",
   "main": "./lib/index.js",
   "module": "./es/index.js",
   "scripts": {
     "test": "jest",
+    "build": "npm run build:es && npm run build:cjs",
     "build:es": "TYPE=es babel src --out-dir es",
     "build:cjs": "TYPE=cjs babel src --out-dir lib"
   },
@@ -17,6 +18,8 @@
   "author": "kkkkkxiaofei/pursue",
   "license": "MIT",
   "devDependencies": {
+    "@babel/cli": "^7.10.4",
+    "@babel/plugin-transform-react-jsx": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "babel-jest": "^26.1.0",
     "jest": "^26.1.0"
