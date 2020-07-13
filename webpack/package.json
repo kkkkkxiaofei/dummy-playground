@@ -1,0 +1,16 @@
+{
+  "name": "@dummmy/webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "bundle": "node index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/parser": "^7.10.4",
+    "@babel/traverse": "^7.10.4"
+  }
+}
