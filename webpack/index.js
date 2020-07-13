@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const parser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
+const babel = require('@babel/core');
 
 let id = 0;
 
@@ -18,10 +19,19 @@ const createAsset = function(filename) {
     }
   });
 
+  const { code } = babel.transformFromAstSync(
+    ast, 
+    null, 
+    { 
+      presets: ['@babel/preset-env'] 
+    }
+  );
+
   return {
     id: id++,
     filename,
-    dependencies
+    dependencies,
+    code
   }
 };
 
@@ -39,5 +49,11 @@ const createAssets = function(filename) {
 };
 
 const assets = createAssets('examples/main.js');
+
+const bundle = assets => {
+
+}
+
+// const result = bundle(assets);
 
 console.log(assets);

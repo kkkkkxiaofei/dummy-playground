@@ -4,7 +4,7 @@ const moduleType = TYPE === 'cjs' ? 'commonjs' : false;
 const config = {
   presets: [
     [
-      "@babel/preset-env", 
+      "@babel/preset-env",
       { 
         modules: moduleType
       }
