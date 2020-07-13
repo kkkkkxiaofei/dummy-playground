@@ -25,22 +25,19 @@ const createAsset = function(filename) {
   }
 };
 
+const createAssets = function(filename) {
+  const assets = [createAsset(filename)];
 
-const graphMap = {};
-
-const createGraph = function(filename) {
-  let asset = graphMap[filename];
-
-  if (!asset) {
-    asset = graphMap[filename] = createAsset(filename);
+  for (let asset of assets) {
+    asset.dependencies.forEach(relativePath => {
+      const absPath = path.join(path.dirname(filename), relativePath);
+      assets.push(createAsset(absPath));// keep iteration
+    })
   }
 
-  asset.dependencies.forEach(dep => {
-    const absPath = path.join(path.dirname(filename), dep);
-    createGraph(absPath);
-  });
+  return assets;
 };
 
-const output = createGraph('examples/main.js');
+const assets = createAssets('examples/main.js');
 
-console.log(graphMap);
+console.log(assets);
