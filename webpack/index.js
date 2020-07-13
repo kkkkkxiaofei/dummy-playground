@@ -51,9 +51,34 @@ const createAssets = function(filename) {
 const assets = createAssets('examples/main.js');
 
 const bundle = assets => {
+  const modules = assets.reduce((result, asset) => 
+    result += `
+      ${asset.id} : function(require, module, exports) {
+        ${asset.code}
+      },
+    `, '');
+  
+  const result = `
+    (function(modules) {
+      function load(id) {
+        const factory = modules[id];
+        function require(relativePath) {
+          //todo
+          return load([relativePath]);
+        }
+        const module = {
+          exports: {}
+        }
+        factory(require, module, module.exports);
+        return module.exports;
+      }
+      load(0);
+    })({${modules}});
+  `;
 
+  return result;
 }
 
-// const result = bundle(assets);
+const result = bundle(assets);
 
-console.log(assets);
+console.log(result);
