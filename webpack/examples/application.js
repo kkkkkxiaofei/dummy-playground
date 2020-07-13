@@ -1,4 +1,4 @@
-import log from './log';
+import log from './log.js';
 
-export const start = () => log('application is starting...')
+export const start = appName => log(`${appName} is starting...`);
 
