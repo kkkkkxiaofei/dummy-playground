@@ -15,7 +15,13 @@ function createAsset(filename) {
 
   traverse(ast, {
     ImportDeclaration({ node }) {
-      dependencies.push(node.source.value);
+      const relativePath = node.source.value;
+      // need transfer it to current path, then to resolve absolut path
+      const currentPath = path.join(path.dirname(filename), relativePath);
+      if (path.resolve(currentPath) === path.resolve(filename)) {
+        throw new Error(`self reference found in : ${filename}`)
+      }
+      dependencies.push(relativePath);
     }
   });
 
@@ -84,6 +90,6 @@ const bundle = assets => {
   return result;
 }
 
-const result = bundle(assets);
+// const result = bundle(assets);
 
-console.log(result);
+console.log(assets);
