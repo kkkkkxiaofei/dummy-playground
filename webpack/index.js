@@ -39,9 +39,12 @@ const createAssets = function(filename) {
   const assets = [createAsset(filename)];
 
   for (let asset of assets) {
+    asset.mapping = {};
     asset.dependencies.forEach(relativePath => {
       const absPath = path.join(path.dirname(filename), relativePath);
-      assets.push(createAsset(absPath));// keep iteration
+      const depAsset = createAsset(absPath);
+      asset.mapping[relativePath] = depAsset.id;
+      assets.push(depAsset);// keep iteration
     })
   }
 
@@ -53,18 +56,20 @@ const assets = createAssets('examples/main.js');
 const bundle = assets => {
   const modules = assets.reduce((result, asset) => 
     result += `
-      ${asset.id} : function(require, module, exports) {
-        ${asset.code}
-      },
+      ${asset.id} : [
+        function(require, module, exports) {
+          ${asset.code}
+        },
+        ${JSON.stringify(asset.mapping)}
+      ],
     `, '');
   
   const result = `
     (function(modules) {
       function load(id) {
-        const factory = modules[id];
+        const [factory, mapping] = modules[id];
         function require(relativePath) {
-          //todo
-          return load([relativePath]);
+          return load(mapping[relativePath]);
         }
         const module = {
           exports: {}
