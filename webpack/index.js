@@ -1,12 +1,12 @@
-const fs = require('fs');
-const path = require('path');
-const parser = require('@babel/parser');
-const traverse = require('@babel/traverse').default;
-const babel = require('@babel/core');
+const fs = require('fs'),
+      path = require('path'),
+      parser = require('@babel/parser'),
+      traverse = require('@babel/traverse').default,
+      babel = require('@babel/core');
 
 let id = 0;
 
-const createAsset = function(filename) {
+function createAsset(filename) {
   const file = fs.readFileSync(filename, 'utf8');
 
   const ast = parser.parse(file, { sourceType: 'module' });
@@ -35,7 +35,7 @@ const createAsset = function(filename) {
   }
 };
 
-const createAssets = function(filename) {
+function createAssets(filename) {
   const assets = [createAsset(filename)];
 
   for (let asset of assets) {
