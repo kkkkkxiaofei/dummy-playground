@@ -90,6 +90,6 @@ const bundle = assets => {
   return result;
 }
 
-// const result = bundle(assets);
+const result = bundle(assets);
 
-console.log(assets);
+fs.writeFile('bundle.js', result, $ => $);

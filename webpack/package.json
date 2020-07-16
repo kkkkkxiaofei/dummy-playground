@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "bundle": "node index"
+    "bundle": "node src/index"
   },
   "keywords": [],
   "author": "",
