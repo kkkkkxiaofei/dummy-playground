@@ -1,5 +1,5 @@
 import { useContext, useRef, useEffect, useReducer } from 'react';
-import ReactReduxContext from './ReactReduxContext';
+import ReactReduxContext from './components/ReactReduxContext';
 
 const refEqual = (a, b) => a === b;
 

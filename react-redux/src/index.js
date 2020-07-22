@@ -1,8 +1,8 @@
-import Provider from './Provider';
-import useSelector from './useSelector';
-import ReactReduxContext from './ReactReduxContext';
-import useDispatch from './useDispatch';
-import useStore from './useStore';
+import Provider from './components/Provider';
+import useSelector from './hooks/useSelector';
+import ReactReduxContext from './components/ReactReduxContext';
+import useDispatch from './hooks/useDispatch';
+import useStore from './hooks/useStore';
 
 export {
   Provider,
