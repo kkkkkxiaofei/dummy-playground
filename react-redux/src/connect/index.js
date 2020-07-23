@@ -1,4 +1,4 @@
-import React, { useContext, memo } from 'react';
+import React, { useContext, memo, useMemo, useRef, useReducer } from 'react';
 import selectFactory from './selectFactory';
 import ReactReduxContext from '../components/ReactReduxContext';
 
@@ -19,6 +19,7 @@ const connect = (
   } = {}
 ) => {
 
+  //todo: memorize
   const wrappedSelectFactory = selectFactory(
     mapStateToProps,
     mapDispatchToProps,
@@ -30,7 +31,31 @@ const connect = (
   const finalPropsSelector = wrappedSelectFactory(store);
   
   return WrappedComponent => {
-    const ConnectFunction = ownProps => <WrappedComponent {...finalPropsSelector(ownProps)} />
+    const ConnectFunction = ownProps => {
+      const [, forceRender] = useReducer(i => i + 1, 0);
+      let latestOwnProps = useRef(ownProps);
+
+      const usePure = pure ? useMemo : cb => cb();
+
+      const actualFinalProps = usePure(() => {
+        return finalPropsSelector(ownProps);
+      }, [ownProps]);
+
+      useEffect(() => {
+        latestOwnProps.current = ownProps;
+      });
+
+      const check = () => {
+        const finalPropsFromStoreUpdated = finalPropsSelector(ownProps);
+        if (finalPropsFromStoreUpdated !== actualFinalProps) {
+          forceRender();
+        }
+      };
+
+      store.subscribe(check);
+
+      return <WrappedComponent {...actualFinalProps} />
+    }
     return pure ? memo(ConnectFunction) : ConnectFunction;
   };
 }
