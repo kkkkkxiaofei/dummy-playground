@@ -1,4 +1,11 @@
-import React, { useContext, memo, useMemo, useRef, useReducer } from 'react';
+import React, { 
+  useContext, 
+  memo, 
+  useMemo, 
+  useRef, 
+  useReducer,
+  useEffect, 
+} from 'react';
 import selectFactory from './selectFactory';
 import ReactReduxContext from '../components/ReactReduxContext';
 
@@ -25,33 +32,31 @@ const connect = (
     mapDispatchToProps,
     mergeProps
   );
-
-  const { store } = useContext(ReactReduxContext);
-
-  const finalPropsSelector = wrappedSelectFactory(store);
   
   return WrappedComponent => {
     const ConnectFunction = ownProps => {
-      const [, forceRender] = useReducer(i => i + 1, 0);
+      const { store } = useContext(ReactReduxContext);
+      const finalPropsSelector = wrappedSelectFactory(store);
+      const [any, forceRender] = useReducer(i => i + 1, 0);
       let latestOwnProps = useRef(ownProps);
-
       const usePure = pure ? useMemo : cb => cb();
 
       const actualFinalProps = usePure(() => {
         return finalPropsSelector(ownProps);
-      }, [ownProps]);
+      }, [ownProps, any]);
 
       useEffect(() => {
         latestOwnProps.current = ownProps;
       });
-
+      
       const check = () => {
-        const finalPropsFromStoreUpdated = finalPropsSelector(ownProps);
+        const finalPropsFromStoreUpdated = finalPropsSelector(latestOwnProps.current);
         if (finalPropsFromStoreUpdated !== actualFinalProps) {
           forceRender();
         }
       };
 
+      //consider how many times the render will be invoked if there are nested connected component, need subscription?
       store.subscribe(check);
 
       return <WrappedComponent {...actualFinalProps} />

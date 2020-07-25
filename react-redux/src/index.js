@@ -3,6 +3,7 @@ import useSelector from './hooks/useSelector';
 import ReactReduxContext from './components/ReactReduxContext';
 import useDispatch from './hooks/useDispatch';
 import useStore from './hooks/useStore';
+import connect from './connect';
 
 export {
   Provider,
@@ -10,4 +11,5 @@ export {
   ReactReduxContext,
   useDispatch,
   useStore,
+  connect
 };
