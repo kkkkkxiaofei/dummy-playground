@@ -17,7 +17,7 @@ export default (...middlewares) => {
      *   
      *   after compose:
      *   
-     *   (...arg) => next1(next2(next3(...arg)))
+     *   dispatch => next1(next2(next3(dispatch)))`
      * 
      */
     const nexters = middlewares.map(middleware => middleware(store));
