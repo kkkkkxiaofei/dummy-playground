@@ -1,38 +1,48 @@
-import { useContext, useRef, useEffect, useReducer } from 'react';
+import { useMemo, useContext, useRef, useEffect, useReducer } from 'react';
 import ReactReduxContext from '../components/ReactReduxContext';
+import Subscription from '../utils/Subscription';
 
 const refEqual = (a, b) => a === b;
 
 const useSelector = (selector, equalFn = refEqual) => {
-  const { store } = useContext(ReactReduxContext);
-  const storeState = store.getState();
+  const { store, subscription: parentSub } = useContext(ReactReduxContext);
+  
+  const latestState = useRef();
   const latestSelector = useRef();
   const latestSelectorState = useRef();
+  
+  const subscription = useMemo(() => 
+    new Subscription(store, parentSub),
+    [store, parentSub]
+  );
+  
+  const [, forceRender] = useReducer(i => i + 1, 0);
+  const storeState = store.getState();
+
   let selectorState;
 
-  const [, forceRender] = useReducer(i => i + 1, 0);
-
-  if (selector !== latestSelector.current || selectorState !== latestSelectorState.current) {
-    selectorState = selector(storeState);
+  if (selector !== latestSelector.current || storeState !== latestState.current) {
+    selectorState = latestSelectorState.current = selector(storeState);
+    latestSelector.current = selector;
+  } else {
+    selectorState = latestSelectorState.current;
   }
 
   useEffect(() => {
-    latestSelector.current = selector;
-    latestSelectorState.current = selectorState;
-  });
-
-  const check = () => {
-    const nextState = selector(store.getState());
-    if (equalFn(latestSelectorState.current, nextState))
-      return;
+    const check = () => {
+      const nextState = latestSelector.current(storeState);
+      if (equalFn(latestSelectorState.current, nextState)) {
+        return;
+      }
+      
+      latestSelectorState.current = nextState;  
+      forceRender();
+    }
+    subscription.onStateChange = check;
+    subscription.trySubscribe();
     
-    latestSelectorState.current = nextState;  
-    forceRender();
-  }
-
-  store.subscribe(check);
-
-  check();
+    check();
+  }, [subscription, store])
 
   return selectorState;
 };
