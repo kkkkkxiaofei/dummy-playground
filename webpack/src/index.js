@@ -4,6 +4,8 @@ const fs = require('fs'),
       traverse = require('@babel/traverse').default,
       babel = require('@babel/core');
 
+const { entry } = require('./config');
+
 let id = 0;
 
 function createAsset(filename) {
@@ -57,7 +59,7 @@ function createAssets(filename) {
   return assets;
 };
 
-const assets = createAssets('examples/main.js');
+const assets = createAssets(entry);
 
 const bundle = assets => {
   const modules = assets.reduce((result, asset) => 
