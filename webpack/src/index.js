@@ -8,11 +8,40 @@ const { entry } = require('./config');
 
 let id = 0;
 
+function analyze(filename) {
+  const ext = path.extname(filename);
+  if (ext && ext !== '.js') {
+    throw new Error('Only support bundle logic for js file...')
+  }
+  function findPath(relativePath) {
+    const prefix = relativePath;
+    if (fs.existsSync(prefix)) {
+      return prefix;
+    }
+
+    if (fs.existsSync(`${prefix}.js`)) {
+      return `${prefix}.js`;
+    }
+
+    if (fs.existsSync(`${prefix}/index.js`)) {
+      return `${prefix}/index.js`;
+    }
+  }
+
+  const result = findPath(filename);
+
+  if (result) {
+    return result;
+  } else {
+    const modulePath = findPath(`node_modules/${filename}`)
+    return modulePath;
+  }
+}
+
 function createAsset(filename) {
   const file = fs.readFileSync(filename, 'utf8');
 
   const ast = parser.parse(file, { sourceType: 'module' });
-
   const dependencies = [];
 
   traverse(ast, {
@@ -43,24 +72,24 @@ function createAsset(filename) {
   }
 };
 
-function createAssets(filename) {
-  const assets = [createAsset(filename)];
+const assets = [];
 
-  for (let asset of assets) {
-    asset.mapping = {};
-    asset.dependencies.forEach(relativePath => {
-      const absPath = path.join(path.dirname(filename), relativePath);
-      const depAsset = createAsset(absPath);
-      asset.mapping[relativePath] = depAsset.id;
-      assets.push(depAsset);// keep iteration
-    })
-  }
+function createGraph(filename) {
+  const asset = createAsset(filename);
+  assets.push(asset);
 
-  return assets;
+  asset.mapping = {};
+  asset.dependencies.forEach(relativePath => {
+    const absPath = path.join(path.dirname(filename), relativePath);
+    console.log(filename, relativePath, absPath)
+
+    const depAsset = createGraph(absPath);
+    asset.mapping[relativePath] = depAsset.id;
+  })
+  return asset;
 };
 
-const assets = createAssets(entry);
-
+createGraph(entry);
 const bundle = assets => {
   const modules = assets.reduce((result, asset) => 
     result += `
