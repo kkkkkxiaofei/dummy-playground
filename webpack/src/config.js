@@ -1,3 +1,3 @@
 module.exports = {
-  entry: 'examples/vanilla/main.js'
+  entry: 'examples/vanilla-node-module/main.js'
 }

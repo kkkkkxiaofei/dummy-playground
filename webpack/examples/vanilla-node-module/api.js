@@ -1,3 +1,3 @@
-import axios from './node_modules/axios/index.js';
+import axios from 'axios/dist/axios';
 
-export default axios.request;
+export default axios;

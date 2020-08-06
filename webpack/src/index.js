@@ -49,22 +49,27 @@ function buildPath(relativePath, dirname) {
 
 function createAsset(filename) {
   const file = fs.readFileSync(filename, 'utf8');
-
-  const ast = parser.parse(file, { sourceType: 'module' });
   const dependencies = [];
 
-  traverse(ast, {
-    ImportDeclaration({ node }) {
-      const relativePath = node.source.value;
-      // need transfer it to current path, then to resolve absolut path
-      const currentPath = path.join(path.dirname(filename), relativePath);
-      if (path.resolve(currentPath) === path.resolve(filename)) {
-        throw new Error(`self reference found in : ${filename}`)
-      }
-      dependencies.push(relativePath);
-    }
-  });
+  const ast = parser.parse(file, { sourceType: 'module' });
+  const hasDeps = ast.program.body.some(({ source }) => !!source);
 
+  if (hasDeps) {
+    traverse(ast, {
+      ImportDeclaration({ node }) {
+        const relativePath = node.source.value;
+        // need transfer it to current path, then to resolve absolut path
+        const currentPath = path.join(path.dirname(filename), relativePath);
+        if (path.resolve(currentPath) === path.resolve(filename)) {
+          throw new Error(`self reference found in : ${filename}`)
+        }
+        dependencies.push(relativePath);
+      }
+    });
+  } else {
+    console.warn(`Warning: no travese for CommonJS..`);
+  }
+  
   const { code } = babel.transformFromAstSync(
     ast, 
     null, 
