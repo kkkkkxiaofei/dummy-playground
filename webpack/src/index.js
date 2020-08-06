@@ -6,36 +6,45 @@ const fs = require('fs'),
 
 const { entry } = require('./config');
 
+const NODE_MOUDLES_PATH = `${path.dirname(entry)}/node_modules`;
+
 let id = 0;
 
-function analyze(filename) {
-  const ext = path.extname(filename);
+function revisePath(absPath) {
+  const ext = path.extname(absPath);
+  
   if (ext && ext !== '.js') {
     throw new Error('Only support bundle logic for js file...')
   }
-  function findPath(relativePath) {
-    const prefix = relativePath;
-    if (fs.existsSync(prefix)) {
-      return prefix;
+
+  if (ext !== '.js') {
+    if (fs.existsSync(`${absPath}.js`)) {
+      return `${absPath}.js`;
     }
 
-    if (fs.existsSync(`${prefix}.js`)) {
-      return `${prefix}.js`;
+    if (fs.existsSync(`${absPath}/index.js`)) {
+      return `${absPath}/index.js`;
     }
+    throw new Error(`Can not revise the path ${absPath}`)
+  }
+  //here relative path is absolute path
+  return absPath;
+}
 
-    if (fs.existsSync(`${prefix}/index.js`)) {
-      return `${prefix}/index.js`;
-    }
+function buildPath(relativePath, dirname) {
+  if (relativePath === entry) {
+    return relativePath;
   }
 
-  const result = findPath(filename);
-
-  if (result) {
-    return result;
+  let absPath = relativePath;
+  if (/^\./.test(relativePath)) {
+    absPath = path.join(dirname, relativePath);
+    
   } else {
-    const modulePath = findPath(`node_modules/${filename}`)
-    return modulePath;
+    absPath = path.join(NODE_MOUDLES_PATH, relativePath);
   }
+
+  return revisePath(absPath);
 }
 
 function createAsset(filename) {
@@ -80,10 +89,8 @@ function createGraph(filename) {
 
   asset.mapping = {};
   asset.dependencies.forEach(relativePath => {
-    const absPath = path.join(path.dirname(filename), relativePath);
-    console.log(filename, relativePath, absPath)
-
-    const depAsset = createGraph(absPath);
+    const revisedPath  = buildPath(relativePath, path.dirname(filename));
+    const depAsset = createGraph(revisedPath);
     asset.mapping[relativePath] = depAsset.id;
   })
   return asset;
