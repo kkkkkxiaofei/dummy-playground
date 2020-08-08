@@ -14,9 +14,13 @@ let id = 0;
 
 function revisePath(absPath) {
   const ext = path.extname(absPath);
-
-  if (ext && EXTENSIONS.indexOf(ext) === -1) {
-    throw new Error(`Only support bundler for (${EXTENSIONS}) file, current ext is ${ext}`)
+  if (ext) {
+    if (EXTENSIONS.indexOf(ext) === -1) {
+      throw new Error(`Only support bundler for (${EXTENSIONS}) file, current ext is ${ext}`)
+    }
+    if (fs.existsSync(absPath)) {
+      return absPath;
+    }  
   }
 
   if (ext !== '.js') {
@@ -44,10 +48,6 @@ function buildPath(relativePath, dirname) {
     
   } else {
     absPath = path.join(NODE_MOUDLES_PATH, relativePath);
-  }
-
-  if (fs.existsSync(absPath)) {
-    return absPath;
   }
 
   return revisePath(absPath);
@@ -79,7 +79,6 @@ function createAsset(filename) {
       const { callee: { name }, arguments } = node;
       if (name === 'require') {
         const relativePath = arguments[0].value;
-        console.log('=====relative path======', relativePath)
         //currently just treat path not starting with . is the internal nodejs module,
         //but actually when node_modules introduce another external dependecies, the path is 
         //not starting with . neight
