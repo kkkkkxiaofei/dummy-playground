@@ -8,13 +8,15 @@ const { entry } = require('./config');
 
 const NODE_MOUDLES_PATH = `${path.dirname(entry)}/node_modules`;
 
+const { EXTENSIONS } = require('./constant');
+
 let id = 0;
 
 function revisePath(absPath) {
   const ext = path.extname(absPath);
-  
-  if (ext && ext !== '.js') {
-    throw new Error('Only support bundle logic for js file...')
+
+  if (ext && EXTENSIONS.indexOf(ext) === -1) {
+    throw new Error(`Only support bundler for (${EXTENSIONS}) file, current ext is ${ext}`)
   }
 
   if (ext !== '.js') {
@@ -52,7 +54,6 @@ function createAsset(filename) {
   const dependencies = [];
 
   const ast = parser.parse(file, { sourceType: 'module' });
-  const hasDeps = ast.program.body.some(({ source }) => !!source);
 
   traverse(ast, {
     ImportDeclaration({ node }) {
@@ -63,7 +64,14 @@ function createAsset(filename) {
       const { callee: { name }, arguments } = node;
       if (name === 'require') {
         const relativePath = arguments[0].value;
-        dependencies.push(relativePath);
+        console.log('=====relative path======', relativePath)
+        //currently just treat path not starting with . is the internal nodejs module,
+        //but actually when node_modules introduce another external dependecies, the path is 
+        //not starting with . neight
+        //todo: distinguish the nodejs module and node_modules in node_modules
+        if (/^\./.test(relativePath)) {
+          dependencies.push(relativePath);
+        }
       }
     }
   });
