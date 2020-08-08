@@ -1,4 +1,4 @@
-import isEmpty from './node_modules/lodash/isEmpty.js';
+import isEmpty from 'lodash/isEmpty.js';
 
 
 export default isEmpty;
