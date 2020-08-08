@@ -46,12 +46,27 @@ function buildPath(relativePath, dirname) {
     absPath = path.join(NODE_MOUDLES_PATH, relativePath);
   }
 
+  if (fs.existsSync(absPath)) {
+    return absPath;
+  }
+
   return revisePath(absPath);
 }
 
 function createAsset(filename) {
   const file = fs.readFileSync(filename, 'utf8');
+
   const dependencies = [];
+
+  //todo: for different file loader here
+  if (/.json$/.test(filename)) {
+    return {
+      id: id++,
+      filename,
+      dependencies,
+      code: `return ${file}`
+    }
+  }
 
   const ast = parser.parse(file, { sourceType: 'module' });
 
@@ -100,6 +115,7 @@ function createGraph(filename) {
   asset.mapping = {};
   asset.dependencies.forEach(relativePath => {
     const revisedPath  = buildPath(relativePath, path.dirname(filename));
+    console.log(`Start extracting: ${revisedPath}`);
     const depAsset = createGraph(revisedPath);
     asset.mapping[relativePath] = depAsset.id;
   })
@@ -128,7 +144,10 @@ const bundle = assets => {
         const module = {
           exports: {}
         }
-        factory(require, module, module.exports);
+        const result = factory(require, module, module.exports);
+        if (Object.getOwnPropertyNames(module.exports).length === 0) {
+          return result;
+        }
         return module.exports;
       }
       load(0);
