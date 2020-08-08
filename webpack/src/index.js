@@ -105,11 +105,15 @@ function createAsset(filename) {
   }
 };
 
-const assets = [];
+const assetsCache = {};
 
 function createGraph(filename) {
+  const cache = assetsCache[filename];
+  
+  if (cache) return cache;
+
   const asset = createAsset(filename);
-  assets.push(asset);
+  assetsCache[filename] = asset;
 
   asset.mapping = {};
   asset.dependencies.forEach(relativePath => {
@@ -122,6 +126,7 @@ function createGraph(filename) {
 };
 
 createGraph(entry);
+
 const bundle = assets => {
   const modules = assets.reduce((result, asset) => 
     result += `
@@ -156,6 +161,6 @@ const bundle = assets => {
   return result;
 }
 
-const result = bundle(assets);
+const result = bundle(Object.values(assetsCache));
 
 fs.writeFile('bundle.js', result, $ => $);
