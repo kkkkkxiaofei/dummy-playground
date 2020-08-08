@@ -149,7 +149,7 @@ const bundle = assets => {
           exports: {}
         }
         const result = factory(require, module, module.exports);
-        if (Object.getOwnPropertyNames(module.exports).length === 0) {
+        if (module.exports && Object.getOwnPropertyNames(module.exports).length === 0) {
           return result;
         }
         return module.exports;
