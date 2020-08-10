@@ -4,7 +4,14 @@ const fs = require('fs'),
       traverse = require('@babel/traverse').default,
       babel = require('@babel/core');
 
-const { entry } = require('./config');
+const { 
+  entry,
+  filename,
+  library,
+
+ } = require('./config');
+
+const { umd } = require('./templates');
 
 const NODE_MOUDLES_PATH = `${path.dirname(entry)}/node_modules`;
 
@@ -138,29 +145,9 @@ const bundle = assets => {
       ],
     `, '');
   
-  const result = `
-    (function(modules) {
-      function load(id) {
-        const [factory, mapping] = modules[id];
-        function require(relativePath) {
-          return load(mapping[relativePath]);
-        }
-        const module = {
-          exports: {}
-        }
-        const result = factory(require, module, module.exports);
-        if (module.exports && Object.getOwnPropertyNames(module.exports).length === 0) {
-          return result;
-        }
-        return module.exports;
-      }
-      load(0);
-    })({${modules}});
-  `;
-
-  return result;
+  return umd(modules);
 }
 
 const result = bundle(Object.values(assetsCache));
 
-fs.writeFile('bundle.js', result, $ => $);
+fs.writeFile(filename, result, $ => $);
