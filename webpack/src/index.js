@@ -7,11 +7,9 @@ const fs = require('fs'),
 const { 
   entry,
   filename,
-  library,
-
  } = require('./config');
 
-const { umd } = require('./templates');
+const { getTemp } = require('./templates');
 
 const NODE_MOUDLES_PATH = `${path.dirname(entry)}/node_modules`;
 
@@ -145,7 +143,7 @@ const bundle = assets => {
       ],
     `, '');
   
-  return umd(modules);
+  return getTemp(modules);
 }
 
 const result = bundle(Object.values(assetsCache));

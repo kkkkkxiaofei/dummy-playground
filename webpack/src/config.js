@@ -1,6 +1,6 @@
 module.exports = {
   entry: 'examples/vanilla-node-module/main.js',
-  filename: 'main-chunck.js',
-  library: 'dummy',
+  filename: 'chunck.js',
+  library: 'umd-test',
   libraryTarget: 'umd',
 }
