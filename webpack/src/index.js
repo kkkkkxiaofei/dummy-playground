@@ -6,7 +6,7 @@ const fs = require('fs'),
 
 const { 
   entry,
-  filename,
+  output,
  } = require('./config');
 
 const { getTemp } = require('./templates');
@@ -62,6 +62,7 @@ function createAsset(filename) {
   const file = fs.readFileSync(filename, 'utf8');
 
   const dependencies = [];
+  const dynamicDeps = [];//code split
 
   //todo: for different file loader here
   if (/.json$/.test(filename)) {
@@ -82,6 +83,7 @@ function createAsset(filename) {
     },
     CallExpression({ node }) {
       const { callee: { name }, arguments } = node;
+      
       if (name === 'require') {
         const relativePath = arguments[0].value;
         //currently just treat path not starting with . is the internal nodejs module,
@@ -92,13 +94,29 @@ function createAsset(filename) {
           dependencies.push(relativePath);
         }
       }
+
+      if (name === 'dynamicImport') {
+        const relativePath = arguments[0].value;
+        dynamicDeps.push(relativePath);
+      }
     }
   });
   const { code } = babel.transformFromAstSync(
     ast, 
     null, 
     { 
-      presets: ['@babel/preset-env'] 
+      presets: ['@babel/preset-env'],
+      plugins: [
+        {
+          visitor: {
+            Identifier(path) {
+              if (path.node.name === 'dynamicImport') {
+                path.node.name = 'require';
+              }
+            }
+          }
+        }
+      ] 
     }
   );
 
@@ -106,6 +124,7 @@ function createAsset(filename) {
     id: id++,
     filename,
     dependencies,
+    dynamicDeps,
     code
   }
 };
@@ -126,7 +145,15 @@ function createGraph(filename) {
     console.log(`Start extracting: ${revisedPath}`);
     const depAsset = createGraph(revisedPath);
     asset.mapping[relativePath] = depAsset.id;
-  })
+  });
+
+  asset.dynamicDeps.forEach(relativePath => {
+    const revisedPath  = buildPath(relativePath, path.dirname(filename));
+    console.log(`Start code splitting: ${revisedPath}`);
+    const { id, code } = createAsset(revisedPath);
+    fs.writeFile(`${id}.${output}`, code, $ => $);
+  });
+
   return asset;
 };
 
@@ -148,4 +175,4 @@ const bundle = assets => {
 
 const result = bundle(Object.values(assetsCache));
 
-fs.writeFile(filename, result, $ => $);
+fs.writeFile(output, result, $ => $);
