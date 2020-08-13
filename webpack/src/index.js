@@ -151,7 +151,7 @@ function createGraph(filename) {
     const revisedPath  = buildPath(relativePath, path.dirname(filename));
     console.log(`Start code splitting: ${revisedPath}`);
     const { id, code } = createAsset(revisedPath);
-    fs.writeFile(`${id}.${output}`, code, $ => $);
+    fs.writeFileSync(`${id}.${output}`, code);
   });
 
   return asset;
@@ -175,4 +175,4 @@ const bundle = assets => {
 
 const result = bundle(Object.values(assetsCache));
 
-fs.writeFile(output, result, $ => $);
+fs.writeFileSync(output, result);
