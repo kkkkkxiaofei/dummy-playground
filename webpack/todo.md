@@ -9,6 +9,8 @@
 - 导入json文件
 
 - 动态导入（jsonp）
+  - 只完成了umd的版本，需要兼容var
+  - 重构template
 
 - (done)缓存
 
@@ -17,3 +19,7 @@
 - 支持scss
 
 - jsx(babel插件)
+
+- 重构结构，分离必要模块
+
+- 生成cli发布
