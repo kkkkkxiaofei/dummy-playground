@@ -22,12 +22,9 @@ const dynamicDeps = [];//code split
 function splitCode(id, code) {
   fs.writeFileSync(
     `${id}.${output}`, 
-    `jsonpArray.push([
-      ${id},
-      function(require, module, exports) {
-        ${code}  
-      } 
-    ])`
+    `window['jsonpArray']['${id}'] = function(require, module, exports) {
+      ${code}  
+    }`
   );
 };
 
