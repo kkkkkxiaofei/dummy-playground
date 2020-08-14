@@ -15,7 +15,7 @@ const NODE_MOUDLES_PATH = `${path.dirname(entry)}/node_modules`;
 
 const { EXTENSIONS } = require('./constant');
 
-let id = 0;
+let id = -1;
 
 const dynamicDeps = [];//code split
 

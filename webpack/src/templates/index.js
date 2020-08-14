@@ -3,11 +3,11 @@ const { library, libraryTarget, output } = require('../config');
 function requestChunk() {
   //todo config the publicPath
   return `
-    (function(id) {
+    return (function(id) {
       window['jsonpArray'] = window['jsonpArray'] || {};
       const script = document.createElement('script');
-      script.src = \`/\${id}.\${output}\`;
-      
+      script.src = \`/\${id}.${output}\`;
+      document.body.appendChild(script);
       return new Promise(function(res, rej) {
         script.onload = function() {
           const factory = window['jsonpArray'][id];
@@ -27,7 +27,7 @@ function buildFactory(deps) {
     (function(modules) {
       function load(id) {
         if (!modules[id]) {
-          return ${requestChunk()}
+          ${requestChunk()}
         }
         const [factory, mapping] = modules[id];
         function require(relativePath) {
@@ -51,9 +51,6 @@ function buildFactory(deps) {
 
 function umd(deps, { output }) {
   return `(function(root, factory) {
-    const window = window || {};
-    const jsonpArray = window[${output}] = window[${output}] || [];
-
     if (typeof module === 'Object' && typeof exports === 'Object') 
       exports['dummy'] = factory();
     else 
