@@ -1,5 +1,7 @@
+import log from './util';
+
 const run = () => {
-  console.log('app is starting...');
+  log('app is starting...');
   dynamicImport('./api').then(data => `response is ${data}`);
 };
 
