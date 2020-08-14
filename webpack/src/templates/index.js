@@ -23,8 +23,11 @@ const buildFactory = deps => `
 })({${deps}})
 `;
 
-function umd(deps) {
+function umd(deps, { output }) {
   return `(function(root, factory) {
+    const window = window || {};
+    const jsonpArray = window[${output}] = window[${output}] || [];
+
     if (typeof module === 'Object' && typeof exports === 'Object') 
       exports['dummy'] = factory();
     else 
@@ -55,9 +58,9 @@ function _var(deps) {
 }
 
 module.exports = {
-  getTemp: function(deps) {
+  getTemp: function(deps, config) {
     if (libraryTarget === 'umd') {
-      return umd(deps);
+      return umd(deps, config);
     }
     return _var(deps);
   }

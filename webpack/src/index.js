@@ -17,6 +17,20 @@ const { EXTENSIONS } = require('./constant');
 
 let id = 0;
 
+const dynamicDeps = [];//code split
+
+function splitCode(id, code) {
+  fs.writeFileSync(
+    `${id}.${output}`, 
+    `jsonpArray.push([
+      ${id},
+      function(require, module, exports) {
+        ${code}  
+      } 
+    ])`
+  );
+};
+
 function revisePath(absPath) {
   const ext = path.extname(absPath);
   if (ext) {
@@ -59,10 +73,10 @@ function buildPath(relativePath, dirname) {
 }
 
 function createAsset(filename) {
+  id++;
   const file = fs.readFileSync(filename, 'utf8');
 
   const dependencies = [];
-  const dynamicDeps = [];//code split
 
   //todo: for different file loader here
   if (/.json$/.test(filename)) {
@@ -84,20 +98,20 @@ function createAsset(filename) {
     CallExpression({ node }) {
       const { callee: { name }, arguments } = node;
       
-      if (name === 'require') {
+      if (name === 'require' || name === 'dynamicImport') {
         const relativePath = arguments[0].value;
         //currently just treat path not starting with . is the internal nodejs module,
         //but actually when node_modules introduce another external dependecies, the path is 
-        //not starting with . neight
+        //not starting with .
         //todo: distinguish the nodejs module and node_modules in node_modules
         if (/^\./.test(relativePath)) {
           dependencies.push(relativePath);
         }
-      }
 
-      if (name === 'dynamicImport') {
-        const relativePath = arguments[0].value;
-        dynamicDeps.push(relativePath);
+        if (name === 'dynamicImport') {
+          const revisedPath = buildPath(relativePath, path.dirname(filename));
+          dynamicDeps[revisedPath] = '';
+        }
       }
     }
   });
@@ -121,7 +135,7 @@ function createAsset(filename) {
   );
 
   return {
-    id: id++,
+    id,
     filename,
     dependencies,
     dynamicDeps,
@@ -147,30 +161,33 @@ function createGraph(filename) {
     asset.mapping[relativePath] = depAsset.id;
   });
 
-  asset.dynamicDeps.forEach(relativePath => {
-    const revisedPath  = buildPath(relativePath, path.dirname(filename));
-    console.log(`Start code splitting: ${revisedPath}`);
-    const { id, code } = createAsset(revisedPath);
-    fs.writeFileSync(`${id}.${output}`, code);
-  });
-
   return asset;
 };
 
 createGraph(entry);
 
 const bundle = assets => {
-  const modules = assets.reduce((result, asset) => 
-    result += `
-      ${asset.id} : [
+  const modules = assets.reduce((result, asset) => {
+    const { id, code, mapping, filename: revisedPath } = asset;
+    if (dynamicDeps.hasOwnProperty(revisedPath)) {
+      //code split here:
+      //1.assume that the dynamic module does't have mapping
+      //2.and not allowed to import the same moudle in other place
+      splitCode(id, assetsCache[revisedPath].code);
+      return result;
+    }
+
+    return result += `
+      ${id} : [
         function(require, module, exports) {
-          ${asset.code}
+          ${code}
         },
-        ${JSON.stringify(asset.mapping)}
+        ${JSON.stringify(mapping)}
       ],
-    `, '');
+    `
+  }, '');
   
-  return getTemp(modules);
+  return getTemp(modules, { output });
 }
 
 const result = bundle(Object.values(assetsCache));
