@@ -85,7 +85,6 @@ function createAsset(filename) {
     id,
     filename,
     dependencies,
-    dynamicDeps,
     code
   }
 };

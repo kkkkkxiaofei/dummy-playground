@@ -1,6 +1,1 @@
-module.exports = {
-  EXTENSIONS: [
-    '.js',
-    '.json'
-  ]
-}
+exports.EXTENSIONS = ['.js', '.json'];
