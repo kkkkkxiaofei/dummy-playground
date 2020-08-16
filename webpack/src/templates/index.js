@@ -1,12 +1,16 @@
-const { library, libraryTarget, output } = require('../config');
+const { 
+  library, 
+  libraryTarget, 
+  output, 
+  publicPath = ''
+} = require('../config');
 
 function requestChunk() {
-  //todo config the publicPath
   return `
     return (function(id) {
       window['jsonpArray'] = window['jsonpArray'] || {};
       const script = document.createElement('script');
-      script.src = \`/\${id}.${output}\`;
+      script.src = \`${publicPath}/\${id}.${output}\`;
       document.body.appendChild(script);
       return new Promise(function(res, rej) {
         script.onload = function() {
