@@ -4,14 +4,11 @@ const fs = require('fs'),
       traverse = require('@babel/traverse').default,
       babel = require('@babel/core');
 
-const { 
-  entry,
-  output,
- } = global.config = require('./config');
+const { entry, output } = global.config = require('./config');
 
 const buildPath = require('./libs/pathBuilder');
 
-const { getTemp } = require('./templates');
+const { getTemp, buildDynamicFactory } = require('./templates');
 
 let id = -1;
 
@@ -20,9 +17,7 @@ const dynamicDeps = [];//code split
 function splitCode(id, code) {
   fs.writeFileSync(
     `${id}.${output}`, 
-    `window['jsonpArray']['${id}'] = function(require, module, exports) {
-      ${code}  
-    }`
+    buildDynamicFactory(id,code)
   );
 };
 

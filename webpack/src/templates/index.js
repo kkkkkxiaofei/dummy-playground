@@ -5,33 +5,47 @@ const {
   publicPath = ''
 } = global.config;
 
-function requestChunk() {
-  return `
-    return (function(id) {
-      window['jsonpArray'] = window['jsonpArray'] || {};
-      const script = document.createElement('script');
-      script.src = \`${publicPath}/\${id}.${output}\`;
-      document.body.appendChild(script);
-      return new Promise(function(res, rej) {
-        script.onload = function() {
-          const factory = window['jsonpArray'][id];
-          const module = {
-            exports: {}
-          }
-          factory(null, module, module.exports);
-          res(module.exports);
-        }
-      })
-    })(id)
-  `;
-};
+const REQUEST_CHUNK = `
+(function(id) {
+  window['jsonpArray'] = window['jsonpArray'] || {};
+  const script = document.createElement('script');
+  script.src = \`${publicPath}/\${id}.${output}\`;
+  document.body.appendChild(script);
+  return new Promise(function(res, rej) {
+    script.onload = function() {
+      const factory = window['jsonpArray'][id];
+      const module = {
+        exports: {}
+      }
+      factory(null, module, module.exports);
+      res(module.exports);
+    }
+  })
+})(id)
+[factory, mapping] = modules[id];
+    function require(relativePath) {
+      return load(mapping[relativePath]);
+    }
+    const module = {
+      exports: {}
+    }
+    const result = factory(require, module, module.exports);
+    if (module.exports && Object.getOwnPropertyNames(module.exports).length === 0) {
+      return result;
+    }
+    return module.exports;
+  }
+  return function() {
+    return load(0);
+  }
+`;
 
 function buildFactory(deps) { 
   return `
     (function(modules) {
       function load(id) {
         if (!modules[id]) {
-          ${requestChunk()}
+          return ${REQUEST_CHUNK}
         }
         const [factory, mapping] = modules[id];
         function require(relativePath) {
@@ -74,6 +88,11 @@ module.exports = {
       return umd(deps);
     }
     return _var(deps);
+  },
+  buildDynamicFactory: function(id, code) {
+    return `window['jsonpArray']['${id}'] = function(require, module, exports) {
+      ${code}  
+    }`
   }
 };
 
