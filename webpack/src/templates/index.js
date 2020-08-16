@@ -60,23 +60,7 @@ function umd(deps, { output }) {
 
 function _var(deps) {
   return `
-  (function(modules) {
-    function load(id) {
-      const [factory, mapping] = modules[id];
-      function require(relativePath) {
-        return load(mapping[relativePath]);
-      }
-      const module = {
-        exports: {}
-      }
-      const result = factory(require, module, module.exports);
-      if (module.exports && Object.getOwnPropertyNames(module.exports).length === 0) {
-        return result;
-      }
-      return module.exports;
-    }
-    load(0);
-  })({${deps}});
+    (${buildFactory(deps)})()
   `
 }
 
