@@ -1,7 +1,9 @@
 const path = require('path');
+const fs = require('fs');
 
+const { entry } = global.config;
 const NODE_MOUDLES_PATH = `${path.dirname(entry)}/node_modules`;
-const { EXTENSIONS } = require('./constant');
+const { EXTENSIONS } = require('../constant');
 
 function revisePath(absPath) {
   const ext = path.extname(absPath);

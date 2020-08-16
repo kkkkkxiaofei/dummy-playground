@@ -3,7 +3,7 @@ const {
   libraryTarget, 
   output, 
   publicPath = ''
-} = require('../config');
+} = global.config;
 
 function requestChunk() {
   return `
@@ -53,7 +53,7 @@ function buildFactory(deps) {
   `;
 };
 
-function umd(deps, { output }) {
+function umd(deps) {
   return `(function(root, factory) {
     if (typeof module === 'Object' && typeof exports === 'Object') 
       exports['dummy'] = factory();

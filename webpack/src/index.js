@@ -7,7 +7,7 @@ const fs = require('fs'),
 const { 
   entry,
   output,
- } = require('./config');
+ } = global.config = require('./config');
 
 const buildPath = require('./libs/pathBuilder');
 
