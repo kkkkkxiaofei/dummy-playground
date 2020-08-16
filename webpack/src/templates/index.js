@@ -69,9 +69,9 @@ function _var(deps) {
 }
 
 module.exports = {
-  getTemp: function(deps, config) {
+  getTemp: function(deps) {
     if (libraryTarget === 'umd') {
-      return umd(deps, config);
+      return umd(deps);
     }
     return _var(deps);
   }
