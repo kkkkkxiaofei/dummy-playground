@@ -22,22 +22,6 @@ const REQUEST_CHUNK = `
     }
   })
 })(id)
-[factory, mapping] = modules[id];
-    function require(relativePath) {
-      return load(mapping[relativePath]);
-    }
-    const module = {
-      exports: {}
-    }
-    const result = factory(require, module, module.exports);
-    if (module.exports && Object.getOwnPropertyNames(module.exports).length === 0) {
-      return result;
-    }
-    return module.exports;
-  }
-  return function() {
-    return load(0);
-  }
 `;
 
 function buildFactory(deps) { 

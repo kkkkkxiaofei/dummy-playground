@@ -4,10 +4,15 @@ const fs = require('fs'),
       traverse = require('@babel/traverse').default,
       babel = require('@babel/core');
 
-const { entry, output } = global.config = require('./config');
+const { 
+  entry, 
+  output, 
+  presets = [],
+  plugins = [] 
+} = global.config = require('./config');
 
 const buildPath = require('./libs/pathBuilder');
-
+const dynamicImportPlugin = require('./plugins/dynamicImport');
 const { getTemp, buildDynamicFactory } = require('./templates');
 
 let id = -1;
@@ -68,17 +73,10 @@ function createAsset(filename) {
     ast, 
     null, 
     { 
-      presets: ['@babel/preset-env'],
+      presets,
       plugins: [
-        {
-          visitor: {
-            Identifier(path) {
-              if (path.node.name === 'dynamicImport') {
-                path.node.name = 'require';
-              }
-            }
-          }
-        }
+        ...plugins,
+        dynamicImportPlugin
       ] 
     }
   );
