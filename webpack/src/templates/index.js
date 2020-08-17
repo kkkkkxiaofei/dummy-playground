@@ -53,7 +53,11 @@ function buildFactory(deps) {
 
 function umd(deps) {
   return `(function(root, factory) {
+    //commonjs2
     if (typeof module === 'Object' && typeof exports === 'Object') 
+      module.exports['dummy'] = factory();
+    //commonjs1
+    else if(typeof exports === 'Object')
       exports['dummy'] = factory();
     else 
       root['${library}'] = factory();
