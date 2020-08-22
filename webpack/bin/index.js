@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fs = require('fs');
 const config = require(`${process.cwd()}/config`);
 const pack = require('../src/index');
