@@ -3,3 +3,4 @@ node_modules/
 es/
 lib/
 bundle.js
+dist/

@@ -1,6 +1,8 @@
 const fs = require('fs');
-const path = require('path');
-const config = require('../config');
+const config = require(`${process.cwd()}/config`);
 const pack = require('../src/index');
 
-fs.writeFileSync(config.output, pack(config));
+const absDist = `${process.cwd()}/dist`;
+
+fs.promises.mkdir(absDist, { recursive: true })
+  .then(() => fs.writeFileSync(`${absDist}/${config.output}`, pack(config)));
