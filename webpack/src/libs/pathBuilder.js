@@ -1,8 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-
-const { entry } = global.config;
-const NODE_MOUDLES_PATH = `${path.dirname(entry)}/node_modules`;
 const { EXTENSIONS } = require('../constant');
 
 function revisePath(absPath) {
@@ -30,7 +27,10 @@ function revisePath(absPath) {
   return absPath;
 }
 
-function buildPath(relativePath, dirname) {
+function buildPath(relativePath, dirname, config) {
+  const { entry } = config;
+  const NODE_MOUDLES_PATH = `${path.dirname(entry)}/node_modules`;
+
   if (relativePath === entry) {
     return relativePath;
   }

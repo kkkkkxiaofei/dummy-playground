@@ -1,8 +1,11 @@
 {
-  "name": "@dummmy/webpack",
+  "name": "@dummmy/webpack-cli",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "bin/index.js",
+  "bin": {
+    "pack": "./bin/index.js"
+  },
   "scripts": {
     "bundle": "node src/index"
   },

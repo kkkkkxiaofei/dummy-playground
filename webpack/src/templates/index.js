@@ -1,11 +1,13 @@
-const { 
-  library, 
-  libraryTarget, 
-  output, 
-  publicPath = ''
-} = global.config;
+module.exports = {
+  getTemp: function (deps, config) {
+    const {
+      library,
+      libraryTarget,
+      output,
+      publicPath = ''
+    } = config;
 
-const REQUEST_CHUNK = `
+    const REQUEST_CHUNK = `
 (function(id) {
   window['jsonpArray'] = window['jsonpArray'] || {};
   const script = document.createElement('script');
@@ -24,8 +26,8 @@ const REQUEST_CHUNK = `
 })(id)
 `;
 
-function buildFactory(deps) { 
-  return `
+    function buildFactory(deps) {
+      return `
     (function(modules) {
       function load(id) {
         if (!modules[id]) {
@@ -49,38 +51,32 @@ function buildFactory(deps) {
       }
     })({${deps}})
   `;
-};
+    };
 
-function umd(deps) {
-  return `(function(root, factory) {
-    //commonjs2
+    function umd(deps) {
+      return `(function(root, factory) {
     if (typeof module === 'Object' && typeof exports === 'Object') 
-      module.exports['dummy'] = factory();
-    //commonjs1
-    else if(typeof exports === 'Object')
       exports['dummy'] = factory();
     else 
       root['${library}'] = factory();
-  })(window, ${buildFactory(deps)});`    
-}
+  })(window, ${buildFactory(deps)});`
+    }
 
-function _var(deps) {
-  return `
+    function _var(deps) {
+      return `
     (${buildFactory(deps)})()
   `
-}
+    }
 
-module.exports = {
-  getTemp: function(deps) {
+
     if (libraryTarget === 'umd') {
       return umd(deps);
     }
     return _var(deps);
   },
-  buildDynamicFactory: function(id, code) {
+  buildDynamicFactory: function (id, code) {
     return `window['jsonpArray']['${id}'] = function(require, module, exports) {
       ${code}  
     }`
   }
 };
-
