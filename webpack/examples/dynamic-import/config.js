@@ -1,5 +1,5 @@
 module.exports = {
-  entry: 'examples/dynamic-import/main.js',
+  entry: './main.js',
   output: 'chunck.js',
   library: 'umd-test',
   libraryTarget: 'umd',
