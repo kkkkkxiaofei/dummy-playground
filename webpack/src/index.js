@@ -6,10 +6,7 @@ const fs = require('fs'),
 
 const buildPath = require('./libs/pathBuilder');
 const dynamicImportPlugin = require('./plugins/dynamicImport');
-const {
-  getTemp,
-  buildDynamicFactory
-} = require('./templates');
+const { getTemp, buildDynamicFactory } = require('./libs/templateBuilder');
 
 const pack = function (config) {
   const { entry, presets } = config;
