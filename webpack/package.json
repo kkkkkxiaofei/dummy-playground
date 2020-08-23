@@ -1,12 +1,15 @@
 {
   "name": "@dummmy/webpack-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "bin/index.js",
   "bin": {
     "pack": "./bin/index.js"
   },
-  "keywords": [],
+  "files": [
+    "bin",
+    "package.json"
+  ],
   "author": "pursue",
   "license": "MIT",
   "devDependencies": {
@@ -14,5 +17,22 @@
     "@babel/parser": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "@babel/traverse": "^7.10.4"
-  }
+  },
+  "bundledDependencies": [
+    "@babel/core",
+    "@babel/parser",
+    "@babel/preset-env",
+    "@babel/traverse"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:kkkkkxiaofei/dummy-playground.git"
+  },
+  "keywords": [
+    "webpack",
+    "dummy webpack",
+    "mini webpack",
+    "bundle"
+  ],
+  "homepage": "git@github.com:kkkkkxiaofei/dummy-playground.git"
 }
