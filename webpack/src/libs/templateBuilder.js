@@ -11,7 +11,7 @@ module.exports = {
 (function(id) {
   window['jsonpArray'] = window['jsonpArray'] || {};
   const script = document.createElement('script');
-  script.src = \`${publicPath}/\${id}.${output}\`;
+  script.src = \`${publicPath}/dist/\${id}.${output}\`;
   document.body.appendChild(script);
   return new Promise(function(res, rej) {
     script.onload = function() {
