@@ -89,32 +89,38 @@ const pack = function (config) {
     }
   };
 
-  const assetsCache = {};
+  function createAssets(filename) {
+    const stack = [], assets = {};
+    const push = stack.push; 
+    stack.push = function(asset) {
+      if (!assets[asset.filename]) {
+        assets[asset.filename] = asset;
+      }
+      push.call(stack, asset);
+    }
+    stack.push(createAsset(filename));
+    
+    //DFS
+    while(stack.length > 0) {
+      const asset = stack.pop();
+      asset.mapping = {};
+      asset.dependencies.forEach(relativePath => {
+        const revisedPath = buildPath(relativePath, path.dirname(asset.filename), config);
+        console.log(`Start extracting: ${revisedPath}`);
+        const depAsset = createAsset(revisedPath);
+        asset.mapping[relativePath] = depAsset.id;
+        stack.push(depAsset);
+      });
+    }
 
-  function createGraph(filename) {
-    const cache = assetsCache[filename];
-
-    if (cache) return cache;
-
-    const asset = createAsset(filename);
-    assetsCache[filename] = asset;
-
-    asset.mapping = {};
-    asset.dependencies.forEach(relativePath => {
-      const revisedPath = buildPath(relativePath, path.dirname(filename), config);
-      console.log(`Start extracting: ${revisedPath}`);
-      const depAsset = createGraph(revisedPath);
-      asset.mapping[relativePath] = depAsset.id;
-    });
-
-    return asset;
+    return assets;
   };
 
-  createGraph(entry);
-
-  const bundle = assets => {
+  const assets = createAssets(entry);
+  
+  function bundle(assets) {
     const asyncModules = [];
-    const modules = assets.reduce((result, asset) => {
+    const modules = Object.values(assets).reduce((result, asset) => {
       const {
         id,
         code,
@@ -127,7 +133,7 @@ const pack = function (config) {
         //2.and not allowed to import the same moudle in other place
         asyncModules.push({
           prefix: `${id}.`,
-          content: buildDynamicFactory(id, assetsCache[revisedPath].code)
+          content: buildDynamicFactory(id, assets[revisedPath].code)
         });
         return result;
       }
@@ -149,7 +155,7 @@ const pack = function (config) {
     ];
   }
   
-  return bundle(Object.values(assetsCache));
+  return bundle(assets);
 }
 
 module.exports = pack;
