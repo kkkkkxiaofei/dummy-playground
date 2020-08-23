@@ -11,6 +11,7 @@
 - 动态导入（jsonp）
   - 只完成了umd的版本，需要兼容var
   - 重构template
+  - 入口处dist和内部split的写入路径需要统一
 
 - (done)缓存
 

@@ -12,18 +12,11 @@ const {
 } = require('./templates');
 
 const pack = function (config) {
-  const { entry, output, presets } = config;
+  const { entry, presets } = config;
 
   let id = -1;
 
   const dynamicDeps = []; //code split
-
-  function splitCode(id, code) {
-    fs.writeFileSync(
-      `${id}.${output}`,
-      buildDynamicFactory(id, code)
-    );
-  };
 
   function createAsset(filename) {
     id++;
@@ -123,6 +116,7 @@ const pack = function (config) {
   createGraph(entry);
 
   const bundle = assets => {
+    const asyncModules = [];
     const modules = assets.reduce((result, asset) => {
       const {
         id,
@@ -134,7 +128,10 @@ const pack = function (config) {
         //code split here:
         //1.assume that the dynamic module does't have mapping
         //2.and not allowed to import the same moudle in other place
-        splitCode(id, assetsCache[revisedPath].code);
+        asyncModules.push({
+          prefix: `${id}.`,
+          content: buildDynamicFactory(id, assetsCache[revisedPath].code)
+        });
         return result;
       }
 
@@ -147,10 +144,14 @@ const pack = function (config) {
       ],
     `
     }, '');
-
-    return getTemp(modules, config);
+    return [
+      {
+        content: getTemp(modules, config)
+      }, 
+      ...asyncModules
+    ];
   }
-
+  
   return bundle(Object.values(assetsCache));
 }
 

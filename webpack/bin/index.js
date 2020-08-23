@@ -15,4 +15,9 @@ const pack = require('../src/index');
 const absDist = `${process.cwd()}/dist`;
 
 fs.promises.mkdir(absDist, { recursive: true })
-  .then(() => fs.writeFileSync(`${absDist}/${config.output}`, pack(config)));
+  .then(() => 
+    pack(config).forEach(({ prefix = '', content }) => {
+      const path = `${absDist}/${prefix}${config.output}`;
+      fs.writeFileSync(path, content);
+    })    
+  );
