@@ -12,7 +12,7 @@ const {
 } = require('./templates');
 
 const pack = function (config) {
-  const { entry, output } = config;
+  const { entry, output, presets } = config;
 
   let id = -1;
 
@@ -86,7 +86,8 @@ const pack = function (config) {
       null, {
         plugins: [
           dynamicImportPlugin
-        ]
+        ],
+        presets,
       }
     );
 
