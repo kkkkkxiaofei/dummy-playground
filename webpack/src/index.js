@@ -90,13 +90,11 @@ const pack = function (config) {
   };
 
   function createAssets(filename) {
-    const stack = [], assets = {};
+    const stack = [], assets = {}, cache = {};
     const push = stack.push; 
     stack.push = function(asset) {
-      if (!assets[asset.filename]) {
-        assets[asset.filename] = asset;
-      }
       push.call(stack, asset);
+      assets[asset.filename] = asset;
     }
     stack.push(createAsset(filename));
     
@@ -107,9 +105,14 @@ const pack = function (config) {
       asset.dependencies.forEach(relativePath => {
         const revisedPath = buildPath(relativePath, path.dirname(asset.filename), config);
         console.log(`Start extracting: ${revisedPath}`);
-        const depAsset = createAsset(revisedPath);
-        asset.mapping[relativePath] = depAsset.id;
-        stack.push(depAsset);
+        if (cache[revisedPath]) {
+          asset.mapping[relativePath] = cache[revisedPath].id;
+        } else {
+          const depAsset = createAsset(revisedPath);
+          cache[revisedPath] = depAsset;
+          asset.mapping[relativePath] = depAsset.id;
+          stack.push(depAsset);
+        }
       });
     }
 
