@@ -5,4 +5,4 @@ const run = () => {
   dynamicImport('./api').then(res => console.log(`dynamic module response: ${res.default()}`));
 };
 
-run();
+export default run;
