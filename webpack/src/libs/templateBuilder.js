@@ -1,17 +1,19 @@
 module.exports = {
   getTemp: function (deps, config) {
     const {
-      library,
-      libraryTarget,
-      output,
-      publicPath = ''
+      output: {
+        library,
+        libraryTarget,
+        filename,
+        publicPath = ''
+      }
     } = config;
 
     const REQUEST_CHUNK = `
 (function(id) {
   window['jsonpArray'] = window['jsonpArray'] || {};
   const script = document.createElement('script');
-  script.src = \`${publicPath}/dist/\${id}.${output}\`;
+  script.src = \`${publicPath}/dist/\${id}.${filename}\`;
   document.body.appendChild(script);
   return new Promise(function(res, rej) {
     script.onload = function() {

@@ -17,7 +17,7 @@ const absDist = `${process.cwd()}/dist`;
 fs.promises.mkdir(absDist, { recursive: true })
   .then(() => 
     pack(config).forEach(({ prefix = '', content }) => {
-      const path = `${absDist}/${prefix}${config.output}`;
+      const path = `${absDist}/${prefix}${config.output.filename}`;
       fs.writeFileSync(path, content);
     })    
   );
