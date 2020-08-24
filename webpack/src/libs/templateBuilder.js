@@ -9,8 +9,7 @@ module.exports = {
       }
     } = config;
 
-    const REQUEST_CHUNK = `
-(function(id) {
+    const REQUEST_CHUNK = `(function(id) {
   window['jsonpArray'] = window['jsonpArray'] || {};
   const script = document.createElement('script');
   script.src = \`${publicPath}/dist/\${id}.${filename}\`;
