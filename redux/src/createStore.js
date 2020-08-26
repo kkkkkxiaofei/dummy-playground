@@ -12,7 +12,7 @@ const createStore = (reducer, initState, enhancer) => {
   
   let state = initState, 
   listeners = [],
-  currenReducer = reducer;
+  currentReducer = reducer;
   
   const getState = () => state;
 
@@ -26,19 +26,19 @@ const createStore = (reducer, initState, enhancer) => {
     if (action) {
 
       if (action.type === INIT) {
-        state = currenReducer(initState, { type: INIT });
+        state = currentReducer(initState, { type: INIT });
         return;
       }
 
       // include @@REPLACE 
-      state = currenReducer(state, action);
+      state = currentReducer(state, action);
       
       listeners.forEach(listener => listener());
     }
   }
 
   const replaceReducer = newReducer => {
-    currenReducer = newReducer;
+    currentReducer = newReducer;
     dispatch({ type: REPLACE });
   };
 
