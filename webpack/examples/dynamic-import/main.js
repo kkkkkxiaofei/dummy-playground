@@ -1,8 +1,11 @@
 import log from './util';
 
-const run = () => {
-  log('app is starting...');
-  dynamicImport('./api').then(res => console.log(`dynamic module response: ${res.default()}`));
-};
+log('app is starting...');
 
-export default run;
+const btn = document.querySelector('#btn');
+
+window.addEventListener('load', () => {
+  btn.addEventListener('click', () => {
+    dynamicImport('./api').then(res => console.log(`dynamic module response: ${JSON.stringify(res.default())}`));
+  });  
+});
