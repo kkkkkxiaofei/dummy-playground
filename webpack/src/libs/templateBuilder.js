@@ -10,13 +10,13 @@ module.exports = {
     } = config;
 
     const REQUEST_CHUNK = `(function(id) {
-  window['jsonpArray'] = window['jsonpArray'] || {};
+  (self || this)['jsonpArray'] = (self || this)['jsonpArray'] || {};
   const script = document.createElement('script');
   script.src = \`${publicPath}/dist/\${id}.${filename}\`;
   document.body.appendChild(script);
   return new Promise(function(res, rej) {
     script.onload = function() {
-      const factory = window['jsonpArray'][id];
+      const factory = (self || this)['jsonpArray'][id];
       const module = {
         exports: {}
       }
@@ -31,6 +31,10 @@ module.exports = {
       return `
     (function(modules) {
       function load(id) {
+        // todo: why this happen
+        if (isNaN(id)) {
+          return {}
+        }
         if (!modules[id]) {
           return ${REQUEST_CHUNK}
         }
@@ -55,16 +59,19 @@ module.exports = {
     };
 
     function umd(deps) {
-      return `(function(root, factory) {
-    //commonjs2    
-    if (typeof module === 'Object' && typeof exports === 'Object') 
-      module.exports = factory();
-    //commonjs1
-    else if(typeof exports === 'Object') 
-      exports['dummy'] = factory();
-    else 
-      root['${library}'] = factory();
-  })(window, ${buildFactory(deps)});`
+      return `
+        var self = self || this;
+        (function(root, factory) {
+          //commonjs2    
+          if (typeof module === 'Object' && typeof exports === 'Object') 
+            module.exports = factory();
+          //commonjs1
+          else if(typeof exports === 'Object') 
+            exports['dummy'] = factory();
+          else 
+            root['${library}'] = factory();
+        })(self, ${buildFactory(deps)});
+      `
     }
 
     function _var(deps) {
@@ -80,7 +87,7 @@ module.exports = {
     return _var(deps);
   },
   buildDynamicFactory: function (id, code) {
-    return `window['jsonpArray']['${id}'] = function(require, module, exports) {
+    return `(self || this)['jsonpArray']['${id}'] = function(require, module, exports) {
       ${code}  
     }`
   }
