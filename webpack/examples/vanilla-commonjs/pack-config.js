@@ -3,6 +3,5 @@ module.exports = {
   output: {
     filename: 'chunck.js',
     library: 'umd-test',
-    libraryTarget: 'umd'  
   }
 }
