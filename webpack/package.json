@@ -1,5 +1,5 @@
 {
-  "name": "@dummmy/webpack-cli",
+  "name": "@dummmy/pack-cli",
   "version": "1.0.7",
   "description": "",
   "main": "bin/index.js",
