@@ -1,6 +1,6 @@
-### pack
+### Introduction
 
-[pack](http://flypursue.com/notes/Webpack/bundler.html)as a dummy wheel of bundle, just for learning if you are the beginners instead of being used in real project.
+[pack](http://flypursue.com/notes/Webpack/bundler.html) as a dummy wheel of bundle, just for learning if you are the beginners instead of being used in real project.
 
 ### Install       
 
