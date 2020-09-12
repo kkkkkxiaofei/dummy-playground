@@ -1,0 +1,1 @@
+exports.EXTENSIONS = ['.js', '.json'];
