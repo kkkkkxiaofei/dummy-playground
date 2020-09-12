@@ -1,1 +1,0 @@
-exports.EXTENSIONS = ['.js', '.json'];
