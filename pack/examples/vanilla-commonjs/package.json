@@ -1,0 +1,12 @@
+{
+  "name": "vanilla-commonjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "build": "pack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,7 +1,7 @@
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'chunck.js',
+    filename: 'bundle.js',
     library: 'umd-test',
     libraryTarget: 'umd'  
   },
