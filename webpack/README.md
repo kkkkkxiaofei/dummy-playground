@@ -82,7 +82,7 @@ console.log(`[1,2,3] is array: ${isArray(arr)}`);
 ```
 
 
-### 实现的功能
+### 已(未)实现的功能
 
 - 1.pack EMS/CJS(done)
 
