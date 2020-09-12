@@ -9,7 +9,7 @@ const argv = require('yargs')
   .argv;
 const fs = require('fs');
 const path = require('path');
-const config = require(argv.configPath ? path.join(process.cwd(), argv.configPath) : `${process.cwd()}/pack-config.js`);
+const config = require(argv.configPath ? path.join(process.cwd(), argv.configPath) : `${process.cwd()}/pack.config.js`);
 const pack = require('../src/index');
 
 const absDist = `${process.cwd()}/dist`;
