@@ -1,7 +1,7 @@
 {
   "name": "@dummmy/pack-cli",
   "version": "1.0.9",
-  "description": "",
+  "description": "mini implementation of webpack",
   "main": "bin/index.js",
   "bin": {
     "pack": "./bin/index.js"

@@ -2,7 +2,7 @@
 
 [pack](http://flypursue.com/notes/Webpack/bundler.html) 是一个入门级别的前端打包工具, 此轮子仅用作学习交流和讨论，不能成熟的应用于实际项目。
 
-### 安装
+### 全局安装
 
 ```
 npm i -g @dummmy/pack
@@ -15,9 +15,9 @@ examples里面一共有四个例子，代表了几种常见的打包需求，例
 ```
 git clone git@github.com:kkkkkxiaofei/dummy-playground.git
 
-cd pack/examples
+cd pack/examples/vanilla-commonjs
 
-cd vanilla-commonjs
+npm i
 
 npm run build
 
