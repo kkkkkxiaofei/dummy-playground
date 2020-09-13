@@ -15,9 +15,11 @@ examples里面一共有四个例子，代表了几种常见的打包需求，例
 ```
 git clone git@github.com:kkkkkxiaofei/dummy-playground.git
 
-cd webpack/examples
+cd pack/examples
 
 cd vanilla-commonjs
+
+npm run build
 
 ```
 
@@ -80,7 +82,6 @@ console.log(`[1,2,3] is array: ${isArray(arr)}`);
 )()
 
 ```
-
 
 ### 已(未)实现的功能
 
