@@ -1,6 +1,6 @@
-import createStore from '../libs/createStore';
-import applyMiddleware from '../libs/applyMiddleware';
-import { INIT } from '../libs/ActionTypes';
+import createStore from '../src/createStore';
+import applyMiddleware from '../src/applyMiddleware';
+import { INIT } from '../src/ActionTypes';
 
 describe('Create Store', () => {
   it('store check', () => {
@@ -19,9 +19,12 @@ describe('Create Store', () => {
 
     dispatch(action);
 
+    const firstCall: any[] = mockReducer.mock.calls[0];
+    const secondCall: any[] = mockReducer.mock.calls[1];
+
     expect(mockReducer.mock.calls.length).toBe(2);
-    expect(mockReducer.mock.calls[0][1]).toEqual({ type: INIT });
-    expect(mockReducer.mock.calls[1][1]).toBe(action);
+    expect(firstCall[1]).toEqual({ type: INIT });
+    expect(secondCall[1]).toBe(action);
 
   });
 

@@ -1,6 +1,6 @@
 import { INIT, REPLACE } from "./ActionTypes";
 
-const createStore = (reducer, initState, enhancer) => {
+const createStore = (reducer, initState?, enhancer?) => {
   if (typeof initState === 'function' && typeof enhancer === 'undefined') {
     enhancer = initState;
     initState = undefined;
