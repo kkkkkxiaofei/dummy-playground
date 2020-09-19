@@ -1,6 +1,7 @@
 import compose from './compose';
+import { Middleware, Enhancer, Store } from './types/index';
 
-export default (...middlewares) => {
+export default (...middlewares: Middleware[]): Enhancer => {
   const enhancer = createStore => (...args) => {
     const store = createStore(...args);
 
@@ -23,10 +24,12 @@ export default (...middlewares) => {
     const nexters = middlewares.map(middleware => middleware(store));
     dispatch = compose(...nexters)(dispatch);
 
-    return {
+    const enhancedStore: Store = {
       ...store,
       dispatch,
     }
+
+    return enhancedStore;
   }
 
   return enhancer;

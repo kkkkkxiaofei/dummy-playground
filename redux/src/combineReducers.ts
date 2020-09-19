@@ -1,4 +1,6 @@
-export default reducersMap => {
+import { ReducerMap, Reducer } from "./types/index";
+
+export default (reducersMap: ReducerMap): Reducer => {
   let nextState = {}, 
   finalReducer = {};
 

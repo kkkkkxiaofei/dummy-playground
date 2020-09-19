@@ -1,6 +1,15 @@
 import { INIT, REPLACE } from "./ActionTypes";
+import { 
+  Action, 
+  Reducer, 
+  State, 
+  Enhancer, 
+  Listener,
+  StateGetter,
+  Store,
+} from './types/index';
 
-const createStore = (reducer, initState?, enhancer?) => {
+const createStore = (reducer: Reducer, initState?: State, enhancer?: Enhancer): Store => {
   if (typeof initState === 'function' && typeof enhancer === 'undefined') {
     enhancer = initState;
     initState = undefined;
@@ -10,19 +19,19 @@ const createStore = (reducer, initState?, enhancer?) => {
     return enhancer(createStore)(reducer, initState || {});
   }
   
-  let state = initState, 
-  listeners = [],
-  currentReducer = reducer;
+  let state: State = initState,
+  listeners: Listener[] = [],
+  currentReducer: Reducer = reducer;
   
-  const getState = () => state;
+  const getState: StateGetter = () => state;
 
-  const subscribe = listener => {
+  const subscribe = (listener: Listener) => {
     listeners.push(listener);
     //unsubsribe
     return () => listeners.splice(listeners.indexOf(listener), 1);
   }
 
-  const dispatch = action => {
+  const dispatch = (action: Action): void => {
     if (action) {
 
       if (action.type === INIT) {
@@ -37,19 +46,21 @@ const createStore = (reducer, initState?, enhancer?) => {
     }
   }
 
-  const replaceReducer = newReducer => {
+  const replaceReducer = (newReducer: Reducer): void => {
     currentReducer = newReducer;
     dispatch({ type: REPLACE });
   };
 
   dispatch({ type: INIT });
 
-  return {
+  const store: Store = {
     dispatch,
     getState,
     subscribe,
     replaceReducer
   }
+
+  return store;
 }
 
 export default createStore;
