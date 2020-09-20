@@ -2,19 +2,23 @@
   "name": "@dummmy/redux",
   "version": "1.0.5",
   "description": "dummy redux is the min implementation of offcial redux",
+  "pkg": "./dist/index.js",
   "main": "./lib/index.js",
   "module": "./es/index.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "test": "jest",
-    "package": "webpack",
+    "pkg": "webpack",
+    "build:types": "tsc --emitDeclarationOnly",
     "build:es": "TYPE=es babel src --extensions .ts --out-dir es",
     "build:cjs": "TYPE=cjs babel src --extensions .ts --out-dir lib",
-    "build": "npm run build:es && npm run build:cjs && npm run package"
+    "build": "npm run build:es && npm run build:cjs && npm run pkg && build:types"
   },
   "files": [
     "lib",
     "es",
-    "src"
+    "dist",
+    "types"
   ],
   "author": "kkkkkxiaofei/pursue",
   "license": "MIT",
