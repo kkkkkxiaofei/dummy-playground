@@ -12,7 +12,7 @@
     "build:types": "tsc --emitDeclarationOnly",
     "build:es": "TYPE=es babel src --extensions .ts --out-dir es",
     "build:cjs": "TYPE=cjs babel src --extensions .ts --out-dir lib",
-    "build": "npm run build:es && npm run build:cjs && npm run pkg && build:types"
+    "build": "npm run build:es && npm run build:cjs && npm run pkg"
   },
   "files": [
     "lib",
