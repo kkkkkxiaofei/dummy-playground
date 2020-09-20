@@ -17,8 +17,10 @@ module.exports = {
     extensions: [ '.ts']
   },
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: 'index.js',
+    path: path.resolve(__dirname, 'dist'),
+    libraryTarget: 'umd',
+    library: 'redux',
   },
   mode: 'development'
 };

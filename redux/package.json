@@ -7,9 +7,9 @@
   "scripts": {
     "test": "jest",
     "package": "webpack",
-    "build": "npm run build:es && npm run build:cjs",
-    "build:es": "TYPE=es babel src --out-dir es",
-    "build:cjs": "TYPE=cjs babel src --out-dir lib"
+    "build:es": "TYPE=es babel src --extensions .ts --out-dir es",
+    "build:cjs": "TYPE=cjs babel src --extensions .ts --out-dir lib",
+    "build": "npm run build:es && npm run build:cjs && npm run package"
   },
   "files": [
     "lib",

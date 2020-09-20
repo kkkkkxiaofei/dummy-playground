@@ -1,18 +1,7 @@
-const { TYPE } = process.env;
-const moduleType = TYPE === 'cjs' ? 'commonjs' : false;
+const presets = process.env.TYPE === 'es' ?  ['@babel/preset-typescript'] : ['@babel/preset-env', '@babel/preset-typescript']; 
 
 const config = {
-  presets: [
-    [
-      "@babel/preset-env", 
-      { 
-        modules: moduleType
-      }
-    ]
-  ],
-  plugins: [
-    "@babel/plugin-transform-react-jsx"
-  ]
+  presets
 }
 
 module.exports = config;
