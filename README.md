@@ -16,3 +16,4 @@ TODO:
 
 3.一个自定义控件的视频组件（支持弹幕）
 
+[发包测试](https://bundlephobia.com)
