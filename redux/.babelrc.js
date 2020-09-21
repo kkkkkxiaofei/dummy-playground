@@ -2,7 +2,7 @@ const presets = process.env.TYPE === 'es' ?  ['@babel/preset-typescript'] : ['@b
 
 const config = {
   presets,
-  ignore: [/types/]
+  // ignore: [/types/]
 }
 
 module.exports = config;
