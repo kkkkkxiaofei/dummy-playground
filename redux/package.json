@@ -9,6 +9,7 @@
   "scripts": {
     "test": "jest",
     "pkg": "webpack",
+    "tsc": "tsc",
     "check-types": "tsc --noEmit",
     "build:types": "tsc --emitDeclarationOnly",
     "build:es": "TYPE=es babel src --extensions .ts --out-dir es",
