@@ -1,6 +1,6 @@
 {
   "name": "@dummmy/redux",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "dummy redux is the min implementation of offcial redux",
   "pkg": "./dist/index.js",
   "main": "./lib/index.js",
