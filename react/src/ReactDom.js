@@ -16,6 +16,12 @@ const setAttribute = (node, key, value) => {
     realValue = ''
   }
 
+  node.setAttribute(realKey, realValue)
+
+  if (key === 'ref' && isFunction(value)) {
+    value(node)
+  }
+
   if (isFunction(value) && key.startsWith('on')) {
     node._handlers = node._handlers || {}
     const eventType = key.slice(2).toLowerCase()
@@ -24,7 +30,7 @@ const setAttribute = (node, key, value) => {
     node.addEventListener(eventType, node._handlers[eventType])
   }
 
-  node.setAttribute(realKey, realValue)
+  
 }
 
 export const render = (vdom, parentNode) => {
