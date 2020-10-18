@@ -1,3 +1,5 @@
+import { Component } from './React';
+
 const isFunction = arg => typeof arg === 'function'
 const isString = arg => typeof arg === 'string'
 const isObject = arg => typeof arg === 'object'
@@ -56,6 +58,12 @@ export const render = (vdom, parentNode) => {
     }
   
     if (isFunction(type)) {
+      console.log(type instanceof Component)
+      //class component
+      if (Object.getPrototypeOf(type) === Component) {
+        return Component.render(vdom, parentNode, render)
+      } 
+      //function component
       return render(type({ ...props, children }), parentNode)
     }
   }
