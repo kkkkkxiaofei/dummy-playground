@@ -6,33 +6,28 @@ const isObject = arg => typeof arg === 'object'
 const isArray = arg => Object.prototype.toString.call(arg) === '[object Array]'
 
 const setAttribute = (node, key, value) => {
-  let realKey = key, realValue = value
-  if (key === 'className') {
-    realKey = 'class'
-  }
-
-  if (key === 'disabled') {
-    if (value !== true) {
-      return 
-    } 
-    realValue = ''
-  }
-
-  node.setAttribute(realKey, realValue)
-
   if (key === 'ref' && isFunction(value)) {
     value(node)
-  }
-
-  if (isFunction(value) && key.startsWith('on')) {
+  } else if (isFunction(value) && key.startsWith('on')) {
     node._handlers = node._handlers || {}
     const eventType = key.slice(2).toLowerCase()
     node.removeEventListener(eventType, node._handlers[eventType])
     node._handlers[eventType] = value
     node.addEventListener(eventType, node._handlers[eventType])
-  }
+  } else {
+    let realKey = key, realValue = value
+    if (key === 'className') {
+      realKey = 'class'
+    }
 
-  
+    if (key === 'disabled') {
+      if (value !== true) {
+        return 
+      } 
+      realValue = ''
+    }
+    node.setAttribute(realKey, realValue)
+  }
 }
 
 export const render = (vdom, parentNode) => {
