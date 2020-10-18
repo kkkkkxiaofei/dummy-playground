@@ -15,6 +15,15 @@ const setAttribute = (node, key, value) => {
     } 
     realValue = ''
   }
+
+  if (isFunction(value) && key.startsWith('on')) {
+    node._handlers = node._handlers || {}
+    const eventType = key.slice(2).toLowerCase()
+    node.removeEventListener(eventType, node._handlers[eventType])
+    node._handlers[eventType] = value
+    node.addEventListener(eventType, node._handlers[eventType])
+  }
+
   node.setAttribute(realKey, realValue)
 }
 
