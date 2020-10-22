@@ -1,9 +1,11 @@
 import { Component } from './React';
-
-const isFunction = arg => typeof arg === 'function'
-const isString = arg => typeof arg === 'string'
-const isObject = arg => typeof arg === 'object'
-const isArray = arg => Object.prototype.toString.call(arg) === '[object Array]'
+import {
+  isFunction,
+  isString,
+  isObject,
+  isArray,
+  isNumber,
+} from './util'
 
 const setAttribute = (node, key, value) => {
   if (key === 'ref' && isFunction(value)) {
@@ -26,16 +28,18 @@ const setAttribute = (node, key, value) => {
       } 
       realValue = ''
     }
+    if (key === 'key') {
+      realKey = '_key'
+    }
     node.setAttribute(realKey, realValue)
   }
 }
 
 export const render = (vdom, parentNode) => {
-  console.log(vdom)
   const { type, props = {}, children } = vdom
   let node;
 
-  if (isString(vdom)) {
+  if (isString(vdom) || isNumber(vdom)) {
     node = document.createTextNode(vdom)
   }
 
@@ -53,7 +57,6 @@ export const render = (vdom, parentNode) => {
     }
   
     if (isFunction(type)) {
-      console.log(type instanceof Component)
       //class component
       if (Object.getPrototypeOf(type) === Component) {
         return Component.render(vdom, parentNode, render)
@@ -62,6 +65,7 @@ export const render = (vdom, parentNode) => {
       return render(type({ ...props, children }), parentNode)
     }
   }
+  console.log(node, vdom)
   
   const result = parentNode ? parentNode.appendChild(node) && node : node
   return result
