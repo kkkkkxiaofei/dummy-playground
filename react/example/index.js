@@ -33,7 +33,7 @@ class Example2 extends Component {
 
   bindRef(node) {
     this.containerRef = node
-    this.containerRef.style.background = 'red'
+    this.containerRef.style.background = 'green'
   }
 
   render() {
@@ -64,7 +64,8 @@ render(
 
 render(
   <Example2 title='JSX example2' des='made by class component' btnName='about me'>
-    <div>this is children</div>  
+    <div>this is children1</div>  
+    <div>this is children2</div>  
   </Example2>
   , 
   document.getElementById('root')

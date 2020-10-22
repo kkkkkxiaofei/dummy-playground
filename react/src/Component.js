@@ -86,11 +86,11 @@ const update = (oldNode, newVdom, parentNode=oldNode.parentNode) => {
   } else if (isObject(newVdom) && newVdom.type === oldNode.nodeName.toLowerCase()) {
 
       const pool = {};
-      [...oldNode.childNodes].map((childNode, index) => {
+      [...oldNode.childNodes].forEach((childNode, index) => {
           const key = childNode._key || `__index_${index}`;
           pool[key] = childNode;
       });
-      [...newVdom.children].map((childVdom, index) => {
+      [...newVdom.children].flat().forEach((childVdom, index) => {
           const key = childVdom.props && childVdom.props.key || `__index_${index}`;
           if (pool[key]) {
             update(pool[key], childVdom)
