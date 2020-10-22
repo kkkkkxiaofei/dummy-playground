@@ -99,7 +99,6 @@ const update = (oldNode, newVdom, parentNode=oldNode.parentNode) => {
           }
           delete pool[key];
       });
-      console.log('pool,====', pool)
       for (const key in pool) {
           const instance = pool[key]._instance;
           if (instance) instance.componentWillUnmount();
