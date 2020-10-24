@@ -65,7 +65,7 @@ export const render = (vdom, parentNode) => {
       return render(type({ ...props, children }), parentNode)
     }
   }
-  console.log(node, `isNode: ${node instanceof Node}`, vdom)
+  // console.log(node, `isNode: ${node instanceof Node}`, vdom)
   
   const result = parentNode ? parentNode.appendChild(node) && node : node
   return result
@@ -117,13 +117,13 @@ class Component {
     this.props = props
   }
 
-  shouldComponentUpdate() {
-    console.log('=====shouldComponentUpdate=====')
-    return true
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('=====shouldComponentUpdate=====', 'nextProps:', nextProps, 'nextState:', nextState)
+    return this.props !== nextProps || this.state !== nextState
   }
 
-  componentWillUpdate() {
-    console.log('=====componentWillUpdate=====')
+  componentWillUpdate(nextProps, nextState) {
+    console.log('=====componentWillUpdate=====', 'nextProps:', nextProps, 'nextState:', nextState)
   }
 
   componentDidUpdate() {
@@ -174,8 +174,8 @@ class Component {
   }
 
   setState(partialState, callback) {
-    if (this.shouldComponentUpdate()) {
-      this.componentWillUpdate()
+    if (this.shouldComponentUpdate(partialState, this.props)) {
+      this.componentWillUpdate(partialState, this.props)
       this.state = { ...partialState }
       const newVdom = this.render()
       const oldNode = this._node
