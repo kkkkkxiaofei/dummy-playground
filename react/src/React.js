@@ -1,4 +1,5 @@
-import Component, { render } from './Component'
+import Component from './Component'
+import { render } from './ReactDom'
 
 const createElement = (type, props, ...children) => ({ type, props, children: children  })
 

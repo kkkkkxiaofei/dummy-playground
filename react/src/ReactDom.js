@@ -28,6 +28,7 @@ const setAttribute = (node, key, value) => {
       } 
       realValue = ''
     }
+
     if (key === 'key') {
       realKey = '_key'
     }
@@ -59,14 +60,55 @@ export const render = (vdom, parentNode) => {
     if (isFunction(type)) {
       //class component
       if (Object.getPrototypeOf(type) === Component) {
-        return Component.render(vdom, parentNode, render)
+        return Component.render(vdom, parentNode, render, update)
       } 
       //function component
       return render(type({ ...props, children }), parentNode)
     }
   }
-  console.log(node, vdom)
+  // console.log(node, `isNode: ${node instanceof Node}`, vdom)
   
   const result = parentNode ? parentNode.appendChild(node) && node : node
   return result
+}
+
+
+const update = (oldNode, newVdom, parentNode=oldNode.parentNode) => {
+  if ((isString(newVdom) || isNumber(newVdom)) && oldNode instanceof Text) {
+     oldNode.textContent != newVdom && parentNode.replaceChild(document.createTextNode(newVdom), oldNode)
+  } else if (isObject(newVdom) && newVdom.type !== oldNode.nodeName.toLowerCase()) {
+    if (isFunction(newVdom.type)) {
+      Component.update(oldNode, newVdom, parentNode, update)
+    } else {
+      // console.log(oldNode, newVdom)
+      // parentNode.replaceChild(oldNode, oldNode)
+      render(newVdom, parentNode)
+    }
+  } else if (isObject(newVdom) && newVdom.type === oldNode.nodeName.toLowerCase()) {
+
+      const pool = {};
+      [...oldNode.childNodes].forEach((childNode, index) => {
+          const key = childNode._key || `__index_${index}`;
+          pool[key] = childNode;
+      });
+      [...newVdom.children].flat().forEach((childVdom, index) => {
+          const key = childVdom.props && childVdom.props.key || `__index_${index}`;
+          if (pool[key]) {
+            update(pool[key], childVdom)
+          } else {
+            render(childVdom, oldNode)
+          }
+          delete pool[key];
+      });
+      for (const key in pool) {
+          const instance = pool[key]._instance;
+          if (instance) instance.componentWillUnmount();
+          pool[key].remove();
+      }
+      for (const attr of oldNode.attributes) oldNode.removeAttribute(attr.name);
+      for (const prop in newVdom.props) setAttribute(oldNode, prop, newVdom.props[prop]);
+
+  } else {
+    console.log('can not update', newVdom, oldNode.nodeName)
+  }
 }
