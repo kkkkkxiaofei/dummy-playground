@@ -18,17 +18,38 @@ const Example1 = ({ title, des, btnName, children }) => {
   )
 }
 
-class Example2 extends Component {
+class Counter extends Component {
   constructor(props) {
     super(props)
-    this.containerRef = null
-    this.bindRef = this.bindRef.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.state = { value: 0 }
   }
 
   handleClick() {
-    this.setState({ value: this.state.value + 1 })
+    const newValue = this.state.value + 1
+    this.setState({ value:  newValue }, this.props.callback)
+    this.props.callback && this.props.callback(newValue)
+  }
+
+  render() {
+    const { value } = this.state
+    return (
+      <div className='button-wrapper'>
+        <span>{value}</span>
+        <button disabled={false} onClick={this.handleClick}>add</button>
+      </div>
+    )
+  }
+
+}
+
+class Example2 extends Component {
+  constructor(props) {
+    super(props)
+    this.containerRef = null
+    this.bindRef = this.bindRef.bind(this)
+    this.recordValue = this.recordValue.bind(this)
+    this.state = { total: 0 }
   }
 
   bindRef(node) {
@@ -36,31 +57,34 @@ class Example2 extends Component {
     this.containerRef.style.background = 'green'
   }
 
+  recordValue(partialValue) {
+    this.setState({ total:  this.state.total + 1 })
+  }
+
   render() {
-    const { title, des, btnName, children } = this.props
-    const { value } = this.state
-    console.log(value, '======value======')
+    const { title, des, children } = this.props
+    const { total } = this.state
+
     return (
       <div className='container' ref={this.bindRef}>
         <h1 className='bold-font'>{title}</h1>
         <p className='content'>{des}</p>
-        <div className='button-wrapper'>
-          <span>{value}</span>
-          <button disabled={false} onClick={this.handleClick}>{btnName}</button>
-        </div>
+        <div>total: {total}</div>
+        <Counter callback={this.recordValue} />
+        <Counter callback={this.recordValue} />
         {children}
       </div>
     )
   }
 }
 
-render(
-  <Example1 title='JSX example1' des='made by function component' btnName='about me'>
-    <div>this is children</div>  
-  </Example1>
-  , 
-  document.getElementById('root')
-)
+// render(
+//   <Example1 title='JSX example1' des='made by function component' btnName='about me'>
+//     <div>this is children</div>  
+//   </Example1>
+//   , 
+//   document.getElementById('root')
+// )
 
 render(
   <Example2 title='JSX example2' des='made by class component' btnName='about me'>

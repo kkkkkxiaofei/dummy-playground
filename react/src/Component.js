@@ -117,6 +117,10 @@ class Component {
     this.props = props
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('=====componentWillReceiveProps=====', 'nextProps:', nextProps)
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     console.log('=====shouldComponentUpdate=====', 'nextProps:', nextProps, 'nextState:', nextState)
     return this.props !== nextProps || this.state !== nextState
@@ -173,7 +177,7 @@ class Component {
     }
   }
 
-  setState(partialState, callback) {
+  setState(partialState) {
     if (this.shouldComponentUpdate(partialState, this.props)) {
       this.componentWillUpdate(partialState, this.props)
       this.state = { ...partialState }
