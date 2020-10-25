@@ -33,14 +33,14 @@ class Component {
     console.log('=====componentDidMount=====')
   }
 
-  static render(vdom, parentNode, toNode, update) {
+  static render(vdom, parentNode, render, update) {
     const { type, props, children } = vdom
     const instance = new type({ ...props, children })
     instance.componentWillMount()
-    const node = toNode(instance.render())
+    const node = render(instance.render())
     parentNode && parentNode.appendChild(node)
     instance.componentDidMount()
-    instance._toNode = toNode
+    instance._render = render
     instance._update = update
     node._parentNode = parentNode
     node._instance = instance
@@ -57,7 +57,7 @@ class Component {
     } else {
       if (Component.isPrototypeOf(newVdom.type)) {
         //class component
-        parentNode.replaceChild(Component.render(newVdom, null, oldNode._instance._toNode), oldNode)
+        parentNode.replaceChild(Component.render(newVdom, null, oldNode._instance._render), oldNode)
       } else {
         //fuction component
         update.update(oldNode, vdom.type(props), parentNode)
