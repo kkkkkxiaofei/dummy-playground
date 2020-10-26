@@ -1,17 +1,52 @@
 import DummyReact from '../src/React'
 
-describe('React', () => {
+describe('React JSX', () => {
   it('should create element', () => {
-    const element = DummyReact.createElement('div', { name: 'hello' }, 'children 1', 'children 2')
 
-    expect(element).toEqual({
-      type: 'div',
+    const Detail = ({ name, age, title }) => (
+      <div className="details">
+        <p>{name}</p>
+        <p>{age}</p>
+        <p>{title}</p>
+      </div>
+    )
+
+    const NestedComponent = ({ description, children }) => (
+      <div className="container">
+        <h1>{description}</h1>
+        {children}
+      </div>
+    )
+
+    expect(
+      <NestedComponent description="nested component">
+        <div className="content">
+            <Detail name="kelvin" age="35" title="PO" />
+          </div>
+      </NestedComponent>
+    ).toEqual({
+      type: NestedComponent,
       props: {
-        name: 'hello'
+        description: 'nested component'
       },
       children: [
-        'children 1',
-        'children 2'
+        {
+          type: 'div',
+          props: {
+            className: 'content'
+          },
+          children: [
+            {
+              type: Detail,
+              props: {
+                name: 'kelvin',
+                age: '35',
+                title: 'PO'
+              },
+              children: []
+            }
+          ]
+        }
       ]
     })
   })
