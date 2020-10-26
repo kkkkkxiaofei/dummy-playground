@@ -240,4 +240,66 @@ describe('ReactDom', () => {
 
   })
 
+  describe('Update', () => {
+
+    it('should update when oldNode is Text and newVdom is string or number', () => {
+        class SimpleComponent extends Component {
+          constructor(props) {
+            super(props)
+            this.state = { content: 'string1'}
+          }
+
+          render() {
+            const { content } = this.state
+            return (<div>{content}</div>)
+          }
+        }
+
+        const node = render(<SimpleComponent />)
+
+        node._instance.setState({ content: 'string2' })
+
+        expect(node.childNodes[0].textContent).toEqual('string2')
+
+    })
+
+    it('should update when newVdom is object and type is function', () => {
+      class InnerComponent extends Component {
+        constructor(props) {
+          super(props)
+        }
+
+        render() {
+          return (
+            <p>{this.props.description}</p>
+          )
+        }
+      }
+
+      class SimpleComponent extends Component {
+        constructor(props) {
+          super(props)
+          this.state = { content: 'string1'}
+        }
+
+        render() {
+          const { content } = this.state
+          if (content === 'string2') {
+            return (<InnerComponent description='this is inner component' />)
+          }
+          return (<div>{content}</div>)
+        }
+      }
+      const root = document.createElement('div')
+      const node = render(<SimpleComponent />, root)
+
+      node._instance.setState({ content: 'string2' })
+
+      expect(root.childNodes[0].nodeName).toEqual('P')
+      expect(root.childNodes[0].childNodes[0].textContent).toEqual('this is inner component')
+
+  })
+
+  })
+
 })

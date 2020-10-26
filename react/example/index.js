@@ -2,6 +2,7 @@ import DummyReact from '../src/react'
 import { render } from '../src/ReactDom'
 import Example1 from './Example1'
 import Example2 from './Example2'
+import Example3 from './Example3'
 
 const Example = () => {
   return (
@@ -13,6 +14,7 @@ const Example = () => {
         <div>this is children1</div>  
         <div>this is children2</div>  
       </Example2>
+      <Example3 />
     </div>
   )
 }
