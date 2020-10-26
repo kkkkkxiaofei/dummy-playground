@@ -89,6 +89,97 @@ describe('ReactDom', () => {
       expect(node.childNodes[1].childNodes[0].childNodes.length).toEqual(3)
     })
 
+    it('should call lifecycle hooks correctly when render nested class compoent', () => {
+      const args = []
+
+      class Detail extends Component {
+        constructor(props) {
+          super(props)
+        }
+
+        componentWillMount() {
+          args.push({
+            component: 'Detail',
+            name: 'componentWillMount'
+          })
+        }
+        componentDidMount() {
+          args.push({
+            component: 'Detail',
+            name: 'componentDidMount'
+          })
+        }
+
+        render() {
+          const { className, name, age, title } = this.props
+          return (
+            <div className={className}>
+              <p>{name}</p>
+              <span>{age}</span>
+              <a>{title}</a>
+            </div>
+          )  
+        }
+      }
+
+      class NestedClassComponent extends Component {
+        constructor(props) {
+          super(props)
+        }
+
+        componentWillMount() {
+          args.push({
+            component: 'NestedClassComponent',
+            name: 'componentWillMount'
+          })
+        }
+        componentDidMount() {
+          args.push({
+            component: 'NestedClassComponent',
+            name: 'componentDidMount'
+          })
+        }
+        
+
+        render() {
+          const { description, children } = this.props
+          return (
+            <div className="container">
+              <h1>{description}</h1>
+              {children}
+            </div>
+          )
+        }
+      }
+
+      render(
+        <NestedClassComponent description="nested component">
+          <div className="content">
+            <Detail name="kelvin" age="35" title="PO" className="detail-container" />
+          </div>
+        </NestedClassComponent>
+      )
+
+      expect(args.length).toEqual(4)
+      expect(args[0]).toEqual({
+        component: 'NestedClassComponent',
+        name: 'componentWillMount'
+      })
+      expect(args[1]).toEqual({
+        component: 'Detail',
+        name: 'componentWillMount'
+      })
+      expect(args[2]).toEqual({
+        component: 'Detail',
+        name: 'componentDidMount'
+      })
+      expect(args[3]).toEqual({
+        component: 'NestedClassComponent',
+        name: 'componentDidMount'
+      })
+      
+    })
+
     it('should render basic function component', () => {
 
       const BasicFunctionComponent = ({ className, name, age, title }) => (

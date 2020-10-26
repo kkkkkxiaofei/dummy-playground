@@ -66,7 +66,6 @@ export const render = (vdom, parentNode) => {
       return render(type({ ...props, children }), parentNode)
     }
   }
-  // console.log(node, `isNode: ${node instanceof Node}`, vdom)
   
   const result = parentNode ? parentNode.appendChild(node) && node : node
   return result
