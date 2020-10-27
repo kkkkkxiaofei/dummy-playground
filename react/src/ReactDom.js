@@ -5,6 +5,7 @@ import {
   isObject,
   isArray,
   isNumber,
+  isBoolean,
 } from './util'
 
 const setAttribute = (node, key, value) => {
@@ -71,6 +72,17 @@ export const render = (vdom, parentNode) => {
   return result
 }
 
+const deepUnmount = instance => {
+  if (instance) {
+    instance.componentWillUnmount()
+    if (instance._node && instance._node.childNodes.length > 0) {
+      instance._node.childNodes.forEach(node => {
+        deepUnmount(node._instance)
+      })
+    }
+  }
+}
+
 
 const update = (oldNode, newVdom, parentNode=oldNode.parentNode) => {
   if ((isString(newVdom) || isNumber(newVdom)) && oldNode instanceof Text) {
@@ -79,7 +91,7 @@ const update = (oldNode, newVdom, parentNode=oldNode.parentNode) => {
     if (isFunction(newVdom.type)) {
       Component.update(oldNode, newVdom, parentNode, update, render)
     } else {
-      oldNode._instance.componentWillUnmount()
+      deepUnmount(oldNode._instance)
       parentNode.replaceChild(render(newVdom), oldNode)
     }
   } else if (isObject(newVdom) && newVdom.type === oldNode.nodeName.toLowerCase()) {
@@ -89,18 +101,21 @@ const update = (oldNode, newVdom, parentNode=oldNode.parentNode) => {
           const key = childNode._key || `__index_${index}`;
           existingChildNodes[key] = childNode;
       });
-      [...newVdom.children].flat().forEach((childVdom, index) => {
-          const key = childVdom.props && childVdom.props.key || `__index_${index}`;
-          if (existingChildNodes[key]) {
-            update(existingChildNodes[key], childVdom)
-          } else {
-            render(childVdom, oldNode)
-          }
-          delete existingChildNodes[key];
-      });
+      [...newVdom.children]
+        .flat()
+        .filter($ => !isBoolean($))
+        .forEach((childVdom, index) => {
+            const key = childVdom.props && childVdom.props.key || `__index_${index}`;
+            if (existingChildNodes[key]) {
+              update(existingChildNodes[key], childVdom)
+            } else {
+              render(childVdom, oldNode)
+            }
+            delete existingChildNodes[key];
+        });
       for (const key in existingChildNodes) {
           const instance = existingChildNodes[key]._instance;
-          if (instance) instance.componentWillUnmount();
+          if (instance) deepUnmount(instance);
           existingChildNodes[key].remove();
       }
       for (const attr of oldNode.attributes) oldNode.removeAttribute(attr.name);

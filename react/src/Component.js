@@ -37,6 +37,7 @@ class Component {
     const { type, props, children } = vdom
     const instance = new type({ ...props, children })
     instance.componentWillMount()
+    console.log(instance.render())
     const node = render(instance.render())
     parentNode && parentNode.appendChild(node)
     instance.componentDidMount()
