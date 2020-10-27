@@ -342,6 +342,53 @@ describe('ReactDom', () => {
 
     })
 
+    it('should update via diff logic', () => {
+      class InnerComponent extends Component {
+        constructor(props) {
+          super(props)
+        }
+
+        render() {
+          return (
+            <p>{this.props.description}</p>
+          )
+        }
+      }
+
+      class SimpleComponent extends Component {
+        constructor(props) {
+          super(props)
+          this.state = { content: 'string1'}
+        }
+
+        render() {
+          const { content } = this.state
+          if (content === 'string2') {
+            return (
+              <div>
+                <div>{content}</div>
+                <InnerComponent description='this is inner component' />
+              </div>
+            )
+          }
+          return (
+            <div>
+              <div>{content}</div>
+            </div>
+          )
+        }
+      }
+      const root = document.createElement('div')
+      const node = render(<SimpleComponent />, root)
+
+      node._instance.setState({ content: 'string2' })
+
+      expect(root.childNodes[0].nodeName).toEqual('DIV')
+      expect(root.childNodes[0].childNodes[1].nodeName).toEqual('P')
+      expect(root.childNodes[0].childNodes[1].childNodes[0].textContent).toEqual('this is inner component')
+
+    })
+
   })
 
 })
