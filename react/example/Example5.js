@@ -28,6 +28,7 @@ class SimpleComponent extends Component {
     if (content === 'string2') {
       return (
         <div>
+          <h1>{content}</h1>
           <InnerComponent description='this is inner component' />
         </div>
       )

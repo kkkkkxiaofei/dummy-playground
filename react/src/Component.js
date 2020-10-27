@@ -48,16 +48,16 @@ class Component {
     return node
   }
 
-  static update(oldNode, newVdom, parentNode, update) {
+  static update(oldNode, newVdom, parentNode, update, render) {
     const newProps = { ...newVdom.props, children: newVdom.children }
     if (oldNode._instance && oldNode._instance.constructor === newVdom.type) {
       oldNode._instance.componentWillReceiveProps(newProps)
       oldNode._instance.props = newProps
-      update(oldNode, oldNode._instance.render(), parentNode)
+      update(oldNode, render, parentNode)
     } else {
       if (Component.isPrototypeOf(newVdom.type)) {
         //class component
-        const newNode = Component.render(newVdom, null, oldNode._instance._render)
+        const newNode = Component.render(newVdom, null, render)
         parentNode && parentNode.replaceChild(newNode, oldNode)
       } else {
         //fuction component

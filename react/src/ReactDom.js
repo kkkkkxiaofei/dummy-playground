@@ -42,10 +42,6 @@ export const render = (vdom, parentNode) => {
 
   if (isString(vdom) || isNumber(vdom)) {
     node = document.createTextNode(vdom)
-    console.log('=========node========', node)
-    node._instance = {
-      _render: render
-    }
   }
 
   if (isArray(vdom)) {
@@ -81,7 +77,7 @@ const update = (oldNode, newVdom, parentNode=oldNode.parentNode) => {
      oldNode.textContent != newVdom && parentNode.replaceChild(document.createTextNode(newVdom), oldNode)
   } else if (isObject(newVdom) && newVdom.type !== oldNode.nodeName.toLowerCase()) {
     if (isFunction(newVdom.type)) {
-      Component.update(oldNode, newVdom, parentNode, update)
+      Component.update(oldNode, newVdom, parentNode, update, render)
     } else {
       oldNode._instance.componentWillUnmount()
       parentNode.replaceChild(render(newVdom), oldNode)
