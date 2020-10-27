@@ -42,6 +42,10 @@ export const render = (vdom, parentNode) => {
 
   if (isString(vdom) || isNumber(vdom)) {
     node = document.createTextNode(vdom)
+    console.log('=========node========', node)
+    node._instance = {
+      _render: render
+    }
   }
 
   if (isArray(vdom)) {
@@ -52,7 +56,7 @@ export const render = (vdom, parentNode) => {
   if (isObject(vdom)) {
     if (isString(type)) {
       const _parentNode = document.createElement(type)
-      children.forEach(vdom => render(vdom, _parentNode))
+      children.forEach(childVdom => render(childVdom, _parentNode))
       Object.entries(props || {}).forEach(([key, value]) => setAttribute(_parentNode, key, value))
       node = _parentNode
     }
@@ -79,6 +83,7 @@ const update = (oldNode, newVdom, parentNode=oldNode.parentNode) => {
     if (isFunction(newVdom.type)) {
       Component.update(oldNode, newVdom, parentNode, update)
     } else {
+      oldNode._instance.componentWillUnmount()
       parentNode.replaceChild(render(newVdom), oldNode)
     }
   } else if (isObject(newVdom) && newVdom.type === oldNode.nodeName.toLowerCase()) {
