@@ -79,9 +79,7 @@ const update = (oldNode, newVdom, parentNode=oldNode.parentNode) => {
     if (isFunction(newVdom.type)) {
       Component.update(oldNode, newVdom, parentNode, update)
     } else {
-      // console.log(oldNode, newVdom)
-      // parentNode.replaceChild(oldNode, oldNode)
-      render(newVdom, parentNode)
+      parentNode.replaceChild(render(newVdom), oldNode)
     }
   } else if (isObject(newVdom) && newVdom.type === oldNode.nodeName.toLowerCase()) {
 

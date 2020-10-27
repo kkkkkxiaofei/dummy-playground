@@ -15,7 +15,7 @@ class InnerComponent extends Component {
 class SimpleComponent extends Component {
   constructor(props) {
     super(props)
-    this.state = { content: 'Example3'}
+    this.state = { content: 'Example4'}
     this.handleClick = this.handleClick.bind(this)
   }
 
