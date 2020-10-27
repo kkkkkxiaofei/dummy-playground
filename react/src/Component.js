@@ -53,7 +53,7 @@ class Component {
     if (oldNode._instance && oldNode._instance.constructor === newVdom.type) {
       oldNode._instance.componentWillReceiveProps(newProps)
       oldNode._instance.props = newProps
-      update(oldNode, render, parentNode)
+      update(oldNode, oldNode._instance.render(), parentNode)
     } else {
       if (Component.isPrototypeOf(newVdom.type)) {
         //class component
