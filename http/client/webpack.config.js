@@ -24,5 +24,10 @@ module.exports = {
     ],
   },
   mode: 'development',
-  devtool: 'source-map'
+  devtool: 'source-map',
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 3002
+  }
 };
