@@ -1,4 +1,4 @@
-import Component from './Component'
+import Component from './component'
 
 const createElement = (type, props, ...children) => ({ type, props, children: children  })
 

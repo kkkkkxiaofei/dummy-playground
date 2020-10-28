@@ -1,4 +1,4 @@
-import DummyReact from '../src/React'
+import DummyReact from '../src/react'
 
 describe('React JSX', () => {
   it('should create element', () => {

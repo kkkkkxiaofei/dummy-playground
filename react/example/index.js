@@ -1,5 +1,4 @@
-import DummyReact from '../src/react'
-import { render } from '../src/ReactDom'
+import DummyReact, { render } from '@dummmy/react'
 import Example1 from './Example1'
 import Example2 from './Example2'
 import Example3 from './Example3'

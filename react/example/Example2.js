@@ -1,4 +1,4 @@
-import DummyReact, { Component, render } from '../src/react';
+import DummyReact, { Component, render } from '@dummmy/react';
 
 class Counter extends Component {
   constructor(props) {

@@ -1,5 +1,5 @@
-import DummyReact, { Component } from '../src/React'
-import { render } from '../src/ReactDom'
+import DummyReact, { Component } from '../src/react'
+import { render } from '../src/reactDom'
 
 describe('ReactDom', () => {
 

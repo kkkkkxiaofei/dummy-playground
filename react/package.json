@@ -1,16 +1,18 @@
 {
   "name": "@dummmy/react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "build": "webpack",
     "babel": "babel --plugins transform-react-jsx src/index.js",
     "test": "jest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "kkkkkxiaofei",
+  "license": "MIT",
+  "files": [
+    "src"
+  ],
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/plugin-syntax-jsx": "^7.10.4",
@@ -22,5 +24,16 @@
     "webpack-cli": "^4.0.0",
     "babel-jest": "^26.6.1",
     "jest": "^26.6.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:kkkkkxiaofei/dummy-playground.git"
+  },
+  "keywords": [
+    "react",
+    "dummy react",
+    "mini react",
+    "react implementation"
+  ],
+  "homepage": "git@github.com:kkkkkxiaofei/dummy-playground.git"
 }

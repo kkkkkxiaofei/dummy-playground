@@ -1,4 +1,4 @@
-import DummyReact from '../src/react';
+import DummyReact from '@dummmy/react';
 
 const Example1 = ({ title, des, btnName, children }) => {
   const handleClick = () => alert('button click')

@@ -1,4 +1,4 @@
-import DummyReact, { Component } from '../src/React'
+import DummyReact, { Component } from '@dummmy/react'
 
 class DeepInner extends Component {
   constructor(props) {
