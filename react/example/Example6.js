@@ -73,6 +73,14 @@ class SimpleComponent extends Component {
       </div>
     )
   }
+
+  componentDidMount() {
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        this.addItem()
+      }
+    })
+  }
 }
 
 export default SimpleComponent
