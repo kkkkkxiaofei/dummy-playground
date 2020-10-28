@@ -39,5 +39,5 @@ function http(method, url, requestData) {
 }
 
 
-http('GET', "https://restapi.amap.com/v3/weather/weatherInfo?parameters")
+http('GET', "http://localhost:8081/profile")
   .then(console.log)
