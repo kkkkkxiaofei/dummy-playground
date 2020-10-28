@@ -2,11 +2,13 @@
 
 造轮子是一种态度，已造（仿）的轮子如下：
 
-[1.一个入门级别的前端打包工具](https://github.com/kkkkkxiaofei/dummy-playground/tree/master/pack)
+[1.一个简单的打包工具](https://github.com/kkkkkxiaofei/dummy-playground/tree/master/pack)
 
-[2.Redux的最小实现](https://github.com/kkkkkxiaofei/dummy-playground/tree/master/redux)
+[2.React最小实现](https://github.com/kkkkkxiaofei/dummy-playground/tree/master/react)
 
-[3.React-Redux的最小实现](https://github.com/kkkkkxiaofei/dummy-playground/tree/master/redux)
+[3.Redux最小实现](https://github.com/kkkkkxiaofei/dummy-playground/tree/master/redux)
+
+[4.React-Redux最小实现](https://github.com/kkkkkxiaofei/dummy-playground/tree/master/react-redux)
 
 TODO:
 
