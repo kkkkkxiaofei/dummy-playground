@@ -12,7 +12,10 @@ class PostMan extends Component {
 
   handleClick() {
     const { method, url, data } = this.props
-    http[method](url, data).then(res => this.setState({ profile: res.data }))
+    http[method](url, data).then(res => {
+      this.setState({ profile: res.data })
+      console.log(res, '=======res=======')
+    })
   }
 
   renderProfile() {

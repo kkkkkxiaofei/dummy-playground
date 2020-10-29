@@ -1,3 +1,5 @@
+const parseHeader = require('./parseHeader')
+
 function xhr(config) {
   const { method, url, data } = config
   return new Promise(function(resolve, reject) {
@@ -12,7 +14,7 @@ function xhr(config) {
           data: JSON.parse(request.response),
           status: request.status,
           statusText: request.statusText,
-          headers: request.getAllResponseHeaders(),
+          headers: parseHeader(request.getAllResponseHeaders()),
           request: request
         }
         console.log('request complete', response)
