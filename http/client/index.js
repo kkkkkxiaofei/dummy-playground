@@ -3,7 +3,7 @@ import PostMan from './components/PostMan'
 
 const requests = [
   {
-    method: 'GET',
+    method: 'get',
     url: 'http://localhost:8081/profile',
   }
 ]

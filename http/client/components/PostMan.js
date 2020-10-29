@@ -1,5 +1,5 @@
 import DummyReact, { Component } from '@dummmy/react'
-import http from '../request'
+import { http, axios } from '../request'
 
 class PostMan extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class PostMan extends Component {
 
   handleClick() {
     const { method, url, data } = this.props
-    http(method, url, data).then(res => this.setState({ profile: res }))
+    http[method](url, data).then(res => this.setState({ profile: res.data }))
   }
 
   renderProfile() {
@@ -33,7 +33,7 @@ class PostMan extends Component {
     const { method, url } = this.props
     return (
       <div>
-        <p>{`${method} ${url}`}</p>
+        <p>{method + url}</p>
         <button onClick={this.handleClick}>send</button>
         {this.renderProfile()}
       </div>
