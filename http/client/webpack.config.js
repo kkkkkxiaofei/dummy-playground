@@ -26,6 +26,7 @@ module.exports = {
   mode: 'development',
   devtool: 'source-map',
   devServer: {
+    host: 'client.localhost',
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 9527
