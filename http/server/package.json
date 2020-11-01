@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index"
+    "start": "nodemon index"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "nodemon": "^2.0.6"
   },
   "dependencies": {
     "cookie-parser": "^1.4.5"
