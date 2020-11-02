@@ -33,9 +33,10 @@ class PostMan extends Component {
   }
 
   render() {
-    const { method, url } = this.props
+    const { title, method, url } = this.props
     return (
       <div>
+        <h1>{title}</h1>
         <p>{method + url}</p>
         <button onClick={this.handleClick}>send</button>
         {this.renderProfile()}

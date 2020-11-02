@@ -1,5 +1,7 @@
-const profile = require('./profile')
+const cookieSession = require('./cookieSession')
+const basicCookie = require('./basicCookie')
 
 module.exports = {
-  profile
+  cookieSession,
+  basicCookie
 }
