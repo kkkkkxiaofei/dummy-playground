@@ -20,12 +20,13 @@ class PostMan extends Component {
 
   renderProfile() {
     if (this.state.profile) {
-      const { name, email, mobile } = this.state.profile
+      const { name, email, mobile, views = 0 } = this.state.profile
       return (
         <div>
           <p>{name}</p>
           <p>{email}</p>
           <p>{mobile}</p>
+          <p>{views}</p>
         </div>
       )
     }

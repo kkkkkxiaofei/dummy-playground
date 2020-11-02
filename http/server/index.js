@@ -1,7 +1,9 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
+const cookieSession = require('cookie-session')
+const { basicCookieRouter, cookieSessionRouter } = require('./routers')
+
 const app = express()
-const { basicCookie, cookieSession } = require('./routers')
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
@@ -14,10 +16,16 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Credentials', true);
   next()
 })
-app.use(cookieParser('my secret'))
 
-app.use('/cookie-session', cookieSession)
-app.use('/basic-cookie', basicCookie)
+app.use(cookieParser('my secret'))
+app.use(cookieSession({
+  name: 'session-name',
+  secret: 'session-secret',
+  maxAge: 2 * 60 * 1000,
+  signed: true
+}))
+app.use('/cookie-session', cookieSessionRouter)
+app.use('/basic-cookie', basicCookieRouter)
 
 app.listen(8081, () => {
   console.log(`server is listening ${8081} port...`)
