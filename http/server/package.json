@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "cookie-parser": "^1.4.5",
-    "cookie-session": "^1.4.0"
+    "cookie-session": "^1.4.0",
+    "express-session": "^1.17.1"
   }
 }

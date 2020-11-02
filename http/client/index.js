@@ -11,6 +11,11 @@ const requests = [
     title: 'Cookie Session',
     method: 'get',
     url: 'http://localhost:8081/cookie-session',
+  },
+  {
+    title: 'Express Session',
+    method: 'get',
+    url: 'http://localhost:8081/express-session',
   }
 ]
 
@@ -19,6 +24,7 @@ const Entry = () => {
     <div>
       <PostMan {...requests[0]} />
       <PostMan {...requests[1]} />
+      <PostMan {...requests[2]} />
     </div>
   )
 }

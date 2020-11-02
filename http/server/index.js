@@ -1,7 +1,12 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const cookieSession = require('cookie-session')
-const { basicCookieRouter, cookieSessionRouter } = require('./routers')
+const expressSession = require('express-session')
+const { 
+  basicCookieRouter, 
+  cookieSessionRouter,
+  expressSessionRouter 
+} = require('./routers')
 
 const app = express()
 
@@ -18,14 +23,21 @@ app.use((req, res, next) => {
 })
 
 app.use(cookieParser('my secret'))
-app.use(cookieSession({
-  name: 'session-name',
-  secret: 'session-secret',
-  maxAge: 2 * 60 * 1000,
-  signed: true
+// app.use(cookieSession({
+//   name: 'session-name',
+//   secret: 'session-secret',
+//   maxAge: 2 * 60 * 1000,
+//   signed: true
+// }))
+app.use(expressSession({
+  resave: false,
+  cookie: {
+    maxAge: 10 * 60 * 1000
+  }
 }))
 app.use('/cookie-session', cookieSessionRouter)
 app.use('/basic-cookie', basicCookieRouter)
+app.use('/express-session', expressSessionRouter)
 
 app.listen(8081, () => {
   console.log(`server is listening ${8081} port...`)
