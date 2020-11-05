@@ -1,16 +1,34 @@
-const xhr = require('./xhr')
+const defaultConfig = require('./config')
 
-function Http(adaptor) {
-  this.adaptor = adaptor
+function Http(instanceConfig) {
+  this.defaults = instanceConfig
 }
 
-['GET', 'POST'].forEach(method => {
-  Http.prototype[method.toLowerCase()] = function(url, data) {
-    return this.adaptor({ method, url, data })
-  }
-})
+function mergeConfig(defaultOne, newOne) {
+  return Object.assign(defaultOne, newOne)
+}
 
-const instance = new Http(xhr)
+Http.prototype.request = function(config) {
+  const mergedConfig = mergeConfig(this.defaults, config)
+  return this.defaults.adaptor(mergedConfig)
+}
+
+const methods = ['get', 'post']
+
+methods.forEach(function(method) {
+  Http.prototype[method] = function(url, data, config) {
+      return this.request(
+        Object.assign(config || {}, {
+          method,
+          url,
+          data
+        })
+      )
+    }
+  }
+)
+
+const instance = new Http(defaultConfig)
 
 
 module.exports = instance

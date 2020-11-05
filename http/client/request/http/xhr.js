@@ -6,7 +6,7 @@ function xhr(config) {
     
     let request = new XMLHttpRequest()
 
-    request.open(method, url)
+    request.open(method.toUpperCase(), url)
   
     request.onreadystatechange = function() {
       if (request.readyState === 4) {
