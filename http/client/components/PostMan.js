@@ -38,7 +38,7 @@ class PostMan extends Component {
     return (
       <div>
         <h1>{title}</h1>
-        <p>{method + url}</p>
+        <p>{`${method.toUpperCase()} ${url}`}</p>
         <button onClick={this.handleClick}>send</button>
         {this.renderProfile()}
       </div>

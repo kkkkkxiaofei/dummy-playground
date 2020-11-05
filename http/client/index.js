@@ -5,26 +5,29 @@ const requests = [
   {
     title: 'Basic Cookie',
     method: 'get',
-    url: 'http://localhost:8081/basic-cookie',
+    url: 'http://localhome:8081/basic-cookie',
+  },
+  {
+    title: 'Basic Cookie',
+    method: 'post',
+    url: 'http://localhome:8081/basic-cookie',
   },
   {
     title: 'Cookie Session',
     method: 'get',
-    url: 'http://localhost:8081/cookie-session',
+    url: 'http://localhome:8081/cookie-session',
   },
   {
     title: 'Express Session',
     method: 'get',
-    url: 'http://localhost:8081/express-session',
+    url: 'http://localhome:8081/express-session',
   }
 ]
 
 const Entry = () => {
   return (
     <div>
-      <PostMan {...requests[0]} />
-      <PostMan {...requests[1]} />
-      <PostMan {...requests[2]} />
+      {requests.map(request => <PostMan {...request} />)}
     </div>
   )
 }
