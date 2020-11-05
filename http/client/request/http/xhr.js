@@ -1,10 +1,12 @@
 const parseHeader = require('./parseHeader')
 
 function xhr(config) {
-  const { method, url, data } = config
+  const { method, url, data, withCredentials } = config
   return new Promise(function(resolve, reject) {
     
     let request = new XMLHttpRequest()
+
+    request.withCredentials = !!withCredentials
 
     request.open(method.toUpperCase(), url)
   

@@ -12,7 +12,7 @@ class PostMan extends Component {
 
   handleClick() {
     const { method, url, data } = this.props
-    axios[method](url, data).then(res => {
+    http[method](url, data).then(res => {
       this.setState({ profile: res.data })
       console.log(res, '=======res=======')
     })
