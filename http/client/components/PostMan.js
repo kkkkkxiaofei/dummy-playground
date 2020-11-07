@@ -13,20 +13,21 @@ class PostMan extends Component {
   handleClick() {
     const { method, url, data } = this.props
     http[method](url, data).then(res => {
-      this.setState({ profile: res.data })
       console.log(res, '=======res=======')
+      this.setState({ profile: res.data })
     })
   }
 
   renderProfile() {
     if (this.state.profile) {
-      const { name, email, mobile, views = 0 } = this.state.profile
+      const { name, email, mobile, views = 0, date } = this.state.profile
       return (
         <div>
           <p>{name}</p>
           <p>{email}</p>
           <p>{mobile}</p>
           <p>{views}</p>
+          <p>{date}</p>
         </div>
       )
     }

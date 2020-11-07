@@ -1,7 +1,12 @@
 const defaultConfig = require('./config')
+const Interceptor = require('./interceptpr')
 
 function Http(instanceConfig) {
   this.defaults = instanceConfig
+  this.interceptors = {
+    request: new Interceptor(),
+    response: new Interceptor()
+  }
 }
 
 function mergeConfig(defaultOne, newOne) {
@@ -10,7 +15,16 @@ function mergeConfig(defaultOne, newOne) {
 
 Http.prototype.request = function(config) {
   const mergedConfig = mergeConfig(this.defaults, config)
-  return this.defaults.adaptor(mergedConfig)
+  const { request, response } = this.interceptors
+  return [...request.handlers, [this.defaults.adaptor], ...response.handlers]
+          .reduce(
+            function(result, current) {
+              console.log(current, 'current')
+              result = result.then(current[0], current[1])
+              return result
+            }, 
+            Promise.resolve(mergedConfig)
+          )
 }
 
 const methods = ['get', 'post']
