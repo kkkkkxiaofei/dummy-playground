@@ -1,9 +1,6 @@
 import http from './http'
 import axios from './axios'
 
-axios.defaults.withCredentials = true
-
-http.defaults.withCredentials = true
 http.interceptors.request.use(
   function(config) {
     config.withCredentials = true

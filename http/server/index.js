@@ -10,6 +10,7 @@ const {
 
 const app = express()
 
+//can be replaced by cors npm
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
   // Request methods you wish to allow
