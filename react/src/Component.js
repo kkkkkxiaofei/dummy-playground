@@ -1,7 +1,6 @@
 class Component {
-  constructor(props, updater) {
+  constructor(props) {
     this.props = props
-    this.updater = updater
   }
 
   componentWillReceiveProps(nextProps) {
@@ -67,10 +66,10 @@ class Component {
     }
   }
 
-  setState(partialState) {
-    if (this.shouldComponentUpdate(partialState, this.props)) {
-      this.componentWillUpdate(partialState, this.props)
-      this.state = { ...partialState }
+  setState(nextState) {
+    if (this.shouldComponentUpdate(nextState, this.props)) {
+      this.componentWillUpdate(nextState, this.props)
+      this.state = { ...nextState }
       const newVdom = this.render()
       const oldNode = this._node
       this._update(oldNode, newVdom, oldNode._parentNode)
