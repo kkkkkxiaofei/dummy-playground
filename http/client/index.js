@@ -21,8 +21,15 @@ const requests = [
     title: 'Express Session',
     method: 'get',
     url: 'http://localhome:8081/express-session',
+  },
+  {
+    title: 'Cancel Request',
+    method: 'get',
+    url: 'http://localhome:8081/cancel',
+    cancelable: true
   }
 ]
+
 
 const Entry = () => {
   return (

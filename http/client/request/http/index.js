@@ -1,5 +1,6 @@
 const defaultConfig = require('./config')
 const Interceptor = require('./interceptpr')
+const CancelToken = require('./CancelToken')
 
 function Http(instanceConfig) {
   this.defaults = instanceConfig
@@ -44,5 +45,6 @@ methods.forEach(function(method) {
 
 const instance = new Http(defaultConfig)
 
+instance.CancelToken = CancelToken
 
 module.exports = instance

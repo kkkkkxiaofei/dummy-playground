@@ -5,22 +5,38 @@ class PostMan extends Component {
   constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
+    
     this.state = {
-      profile: null
+      profile: null,
+      error: null
+    }
+    if (this.props.cancelable) {
+      console.log(http.CancelToken, '---------------')
+      const source = http.CancelToken.source()
+      this.state.source = source
     }
   }
 
   handleClick() {
     const { method, url, data } = this.props
-    http[method](url, data).then(res => {
-      console.log(res, '=======res=======')
+    const { source } = this.state
+    
+    http[method](url, data, source ? {
+      cancelableToken: source.token
+    } : null).then(res => {
       this.setState({ profile: res.data })
-    })
+    }).catch(error => this.setState({ error }))
+  }
+
+  handleCancel() {
+    const { source } = this.state
+    source && source.cancel('pursue wants to cancel this call!')
   }
 
   renderProfile() {
-    if (this.state.profile) {
-      const { name, email, mobile, views = 0, date } = this.state.profile
+    const { profile, error } = this.state
+    if (profile) {
+      const { name, email, mobile, views = 0, date } = profile
       return (
         <div>
           <p>{name}</p>
@@ -31,6 +47,15 @@ class PostMan extends Component {
         </div>
       )
     }
+
+    if (error) {
+      return (
+        <div>
+          <p>{error.toString()}</p>
+        </div>
+      )
+    }
+
     return (<div>no profile</div>)
   }
 
@@ -41,6 +66,7 @@ class PostMan extends Component {
         <h1>{title}</h1>
         <p>{`${method.toUpperCase()} ${url}`}</p>
         <button onClick={this.handleClick}>send</button>
+        <button onClick={this.handleCancel}>cancel</button>
         {this.renderProfile()}
       </div>
     )
