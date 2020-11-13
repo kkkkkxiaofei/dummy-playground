@@ -5,7 +5,8 @@ const expressSession = require('express-session')
 const { 
   basicCookieRouter, 
   cookieSessionRouter,
-  expressSessionRouter 
+  expressSessionRouter,
+  cancelRouter 
 } = require('./routers')
 
 const app = express()
@@ -39,6 +40,7 @@ app.use(expressSession({
 app.use('/cookie-session', cookieSessionRouter)
 app.use('/basic-cookie', basicCookieRouter)
 app.use('/express-session', expressSessionRouter)
+app.use('/cancel', cancelRouter)
 
 app.listen(8081, 'localhome', () => {
   console.log(`server is listening ${8081} port...`)

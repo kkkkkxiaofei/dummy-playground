@@ -11,17 +11,18 @@ function xhr(config) {
     request.open(method.toUpperCase(), url)
   
     request.onreadystatechange = function() {
-      if (request.readyState === 4) {
-        const response = {
-          data: JSON.parse(request.response),
-          status: request.status,
-          statusText: request.statusText,
-          headers: parseHeader(request.getAllResponseHeaders()),
-          request: request
-        }
-        console.log('request complete', response)
-        resolve(response)        
+      if (!request || request.status === 0 || request.readyState !== 4) 
+        return 
+
+      const response = {
+        data: JSON.parse(request.response),
+        status: request.status,
+        statusText: request.statusText,
+        headers: parseHeader(request.getAllResponseHeaders()),
+        request: request
       }
+      console.log('request complete', response)
+      resolve(response)        
       request = null
     }
   

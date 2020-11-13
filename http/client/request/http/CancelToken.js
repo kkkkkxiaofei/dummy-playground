@@ -13,11 +13,13 @@ function CancelToken(executor) {
 }
 
 CancelToken.source = function() {
-  let cancel = new CancelToken(function(c) {
+  let cancel;
+  const token = new CancelToken(function(c) {
     cancel = c
   })
   return {
-    token: cancel
+    token,
+    cancel
   }
 }
 

@@ -5,15 +5,14 @@ class PostMan extends Component {
   constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
     
     this.state = {
       profile: null,
       error: null
     }
     if (this.props.cancelable) {
-      console.log(http.CancelToken, '---------------')
-      const source = http.CancelToken.source()
-      this.state.source = source
+      this.state.source = axios.CancelToken.source()
     }
   }
 
@@ -21,8 +20,8 @@ class PostMan extends Component {
     const { method, url, data } = this.props
     const { source } = this.state
     
-    http[method](url, data, source ? {
-      cancelableToken: source.token
+    axios[method](url, source ? {
+      cancelToken: source.token
     } : null).then(res => {
       this.setState({ profile: res.data })
     }).catch(error => this.setState({ error }))
