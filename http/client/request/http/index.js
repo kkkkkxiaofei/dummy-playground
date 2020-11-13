@@ -28,15 +28,29 @@ Http.prototype.request = function(config) {
           )
 }
 
-const methods = ['get', 'post']
+const methodsWithData = ['post', 'put']
+const methodsWithoutData = ['get', 'post']
 
-methods.forEach(function(method) {
+
+methodsWithData.forEach(function(method) {
   Http.prototype[method] = function(url, data, config) {
       return this.request(
         Object.assign(config || {}, {
           method,
           url,
           data
+        })
+      )
+    }
+  }
+)
+
+methodsWithoutData.forEach(function(method) {
+  Http.prototype[method] = function(url, config) {
+      return this.request(
+        Object.assign(config || {}, {
+          method,
+          url,
         })
       )
     }

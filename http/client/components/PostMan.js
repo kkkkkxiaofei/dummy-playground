@@ -12,7 +12,7 @@ class PostMan extends Component {
       error: null
     }
     if (this.props.cancelable) {
-      this.state.source = axios.CancelToken.source()
+      this.state.source = http.CancelToken.source()
     }
   }
 
@@ -20,11 +20,12 @@ class PostMan extends Component {
     const { method, url, data } = this.props
     const { source } = this.state
     
-    axios[method](url, source ? {
+    http[method](url, source ? {
       cancelToken: source.token
     } : null).then(res => {
       this.setState({ profile: res.data })
     }).catch(error => this.setState({ error }))
+      .finally(() => this.setState({ ...this.state, source: http.CancelToken.source() }))
   }
 
   handleCancel() {
