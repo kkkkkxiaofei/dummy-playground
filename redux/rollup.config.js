@@ -1,35 +1,36 @@
 import ts from '@rollup/plugin-typescript'
-import babel from '@rollup/plugin-babel';
+import babel from '@rollup/plugin-babel'
+import pkg from './package.json'
+import path from 'path';
+
+const getPlugins = type => [
+  ts({
+    declarationDir: path.dirname(pkg[type])
+  }),
+  babel({
+    extensions: ['.ts']
+  })
+]
 
 const config = [
   //umd
   {
     input: 'src/index.ts',
     output: {
-      file: 'dist/index.js',
+      dir: 'dist',
       format: 'umd',
       name: 'redux'
     },
-    plugins: [
-      ts(),
-      babel({
-        extensions: ['.ts']
-      })
-    ]
+    plugins: getPlugins('unpkg')
   },
   //cjs
   {
     input: 'src/index.ts',
     output: {
-      file: 'lib/index.js',
+      dir: 'lib',
       format: 'cjs'
     },
-    plugins: [
-      ts(),
-      babel({
-        extensions: ['.ts']
-      })
-    ]
+    plugins: getPlugins('main')
   },
   //es
   {
@@ -38,15 +39,7 @@ const config = [
       dir: 'es',
       format: 'es'
     },
-    plugins: [
-      ts({
-        declaration: true,
-        declarationDir: 'es'
-      }),
-      babel({
-        extensions: ['.ts']
-      })
-    ]
+    plugins: getPlugins('module')
   }
 ]
 
