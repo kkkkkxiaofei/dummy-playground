@@ -1,7 +1,7 @@
 function is(A, B) {
   if (A === B) {
     //-Infinite and +Infinite
-    return A !== 0 || B !== 0 || 1/A !== 1/B;
+    return A !== 0 || B !== 0 || 1/A === 1/B;
   } else {
     //NaN
     return A !== A && B !== B;
