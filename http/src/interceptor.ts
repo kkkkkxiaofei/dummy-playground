@@ -6,4 +6,4 @@ Interceptor.prototype.use = function(resolve, reject) {
   this.handlers.push([resolve, reject])
 }
 
-module.exports = Interceptor
+export default Interceptor

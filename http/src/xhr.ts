@@ -1,4 +1,5 @@
-const parseHeader = require('./parseHeader')
+import parseHeader from './parseHeader'
+
 
 function xhr(config) {
   const { method, url, data, withCredentials, cancelToken } = config
@@ -38,7 +39,7 @@ function xhr(config) {
       request = null
     }
   
-    request.ontimeout = function() {
+    request.ontimeout = function(e) {
       console.log('request timeout')
       reject(e)
       request = null
@@ -61,4 +62,4 @@ function xhr(config) {
   })
 }
 
-module.exports = xhr
+export default xhr

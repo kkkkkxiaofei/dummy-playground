@@ -1,4 +1,4 @@
-module.exports = function(rawHeader) {
+export default function(rawHeader) {
   return rawHeader
     .split('\n')
     .filter(Boolean)

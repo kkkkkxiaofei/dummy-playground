@@ -1,6 +1,6 @@
-const defaultConfig = require('./config')
-const Interceptor = require('./interceptpr')
-const CancelToken = require('./CancelToken')
+import defaultConfig from './config'
+import Interceptor from './interceptor'
+import CancelToken from './CancelToken'
 
 function Http(instanceConfig) {
   this.defaults = instanceConfig
@@ -61,4 +61,4 @@ const instance = new Http(defaultConfig)
 
 instance.CancelToken = CancelToken
 
-module.exports = instance
+export default instance

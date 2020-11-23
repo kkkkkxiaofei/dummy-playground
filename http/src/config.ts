@@ -1,6 +1,6 @@
-const xhr = require('./xhr')
+import xhr from './xhr'
 
-module.exports = {
+export default {
   adaptor: xhr,
   method: 'get',
   withCredentials: false

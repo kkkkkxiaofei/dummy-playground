@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "outFile": "dist/tsc.js",
+    "outDir": "dist",
+    "target": "esnext",
+    "module": "esnext"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
