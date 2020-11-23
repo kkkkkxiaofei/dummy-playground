@@ -1,3 +1,4 @@
+import { ResponseData } from './types/index'
 import parseHeader from './parseHeader'
 
 
@@ -15,7 +16,7 @@ function xhr(config) {
       if (!request || request.status === 0 || request.readyState !== 4) 
         return 
 
-      const response = {
+      const response: ResponseData = {
         data: JSON.parse(request.response),
         status: request.status,
         statusText: request.statusText,

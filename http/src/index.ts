@@ -1,3 +1,4 @@
+import { Config } from './types'
 import defaultConfig from './config'
 import Interceptor from './interceptor'
 import CancelToken from './CancelToken'
@@ -14,7 +15,7 @@ function mergeConfig(defaultOne, newOne) {
   return Object.assign(defaultOne, newOne)
 }
 
-Http.prototype.request = function(config) {
+Http.prototype.request = function(config: Config) {
   const mergedConfig = mergeConfig(this.defaults, config)
   const { request, response } = this.interceptors
   return [...request.handlers, [this.defaults.adaptor], ...response.handlers]

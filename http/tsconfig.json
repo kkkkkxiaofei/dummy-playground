@@ -3,7 +3,8 @@
     "allowJs": true,
     "outDir": "dist",
     "target": "esnext",
-    "module": "esnext"
+    "module": "esnext",
+    "moduleResolution": "node", //support .ts extension import
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
