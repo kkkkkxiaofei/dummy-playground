@@ -1,25 +1,28 @@
-function CancelToken(executor) {
-  if (typeof executor !== 'function')
-    throw new Error('executor must be function!')
+import { CancelExecutor } from './types'
 
-  let _resolve;
-  this.promise = new Promise(function(resolve) {
-    _resolve = resolve
-  })
-  
-  executor(function cancel(reason) {
-    _resolve(reason)
-  })
-}
+class CancelToken {
+  promise: Promise<string>
 
-CancelToken.source = function() {
-  let cancel;
-  const token = new CancelToken(function(c) {
-    cancel = c
-  })
-  return {
-    token,
-    cancel
+  constructor(executor: CancelExecutor) {
+    let _resolve: (arg: string) => void;
+    this.promise = new Promise(function(resolve) {
+      _resolve = resolve
+    })
+    
+    executor(function cancel(reason) {
+      _resolve(reason)
+    })  
+  }
+
+  static source() {
+    let cancel
+    const token = new CancelToken(function(c) {
+      cancel = c
+    })
+    return {
+      token,
+      cancel
+    }
   }
 }
 

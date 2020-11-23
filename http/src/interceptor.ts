@@ -1,9 +1,15 @@
-function Interceptor() {
-  this.handlers = []
-}
+import { HandlerInput } from './types'
 
-Interceptor.prototype.use = function(resolve, reject) {
-  this.handlers.push([resolve, reject])
+class Interceptor {
+  handlers: Array<Array<(arg: HandlerInput) => void>>
+  
+  constructor() {
+    this.handlers = []
+  }
+
+  use(resolve: (arg: HandlerInput) => void, reject: (arg: HandlerInput) => void) {
+    this.handlers.push([resolve, reject])
+  }
 }
 
 export default Interceptor

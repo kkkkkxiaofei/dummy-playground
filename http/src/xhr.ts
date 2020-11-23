@@ -1,8 +1,8 @@
-import { ResponseData } from './types/index'
+import { ResponseData, Config } from './types/index'
 import parseHeader from './parseHeader'
 
 
-function xhr(config) {
+function xhr(config: Config): Promise<ResponseData> {
   const { method, url, data, withCredentials, cancelToken } = config
   return new Promise(function(resolve, reject) {
     

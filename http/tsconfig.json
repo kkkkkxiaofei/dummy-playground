@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "allowJs": true,
+    "noImplicitAny": true,
     "outDir": "dist",
     "target": "esnext",
     "module": "esnext",
