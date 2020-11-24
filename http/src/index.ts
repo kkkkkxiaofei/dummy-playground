@@ -74,4 +74,6 @@ class Http {
 
 const instance = new Http(defaultConfig as Config)
 
+instance.CancelToken = CancelToken
+
 export default instance
