@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "noImplicitAny": true,
-    "outDir": "dist",
+    "declaration": true,
+    "outDir": "types",
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node", //support .ts extension import

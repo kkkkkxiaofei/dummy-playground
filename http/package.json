@@ -4,7 +4,8 @@
   "description": "mini ajax request implementation based on promise",
   "main": "index.js",
   "scripts": {
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "build:types": "tsc --emitDeclarationOnly"
   },
   "keywords": [],
   "author": "",
