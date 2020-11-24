@@ -1,6 +1,6 @@
 {
   "name": "@dummmy/http",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "mini ajax request implementation based on promise",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -20,6 +20,12 @@
     "tslib": "^2.0.3",
     "typescript": "^4.1.2"
   },
+  "files": [
+    "lib",
+    "es",
+    "dist",
+    "types"
+  ],
   "author": "kkkkkxiaofei/pursue",
   "license": "MIT",
   "repository": {
