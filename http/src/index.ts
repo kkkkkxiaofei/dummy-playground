@@ -5,6 +5,7 @@ import CancelToken from './CancelToken'
 
 class Http {
   private defaults: Config
+  
   private interceptors: {
     request: Interceptor,
     response: Interceptor
@@ -72,7 +73,5 @@ class Http {
 }
 
 const instance = new Http(defaultConfig as Config)
-
-instance.CancelToken = CancelToken
 
 export default instance

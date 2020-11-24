@@ -2,11 +2,12 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "declaration": true,
-    "outDir": "types",
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node", //support .ts extension import
+    "declarationDir": "./types",
+    "strict": true,
   },
-  "include": ["src/**/*"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
