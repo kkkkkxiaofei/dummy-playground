@@ -24,6 +24,7 @@ const useSelector = (selector, equalFn = refEqual) => {
   if (selector !== latestSelector.current || storeState !== latestState.current) {
     selectorState = latestSelectorState.current = selector(storeState);
     latestSelector.current = selector;
+    latestState.current = storeState;
   } else {
     selectorState = latestSelectorState.current;
   }
