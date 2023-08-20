@@ -1,21 +1,14 @@
-### 轮子工厂
+### Wheels Playground
 
-造轮子是一种态度，已造（仿）的轮子如下：
+This where I re-invent wheels :)
 
-[1.一个简单的打包工具](https://github.com/kkkkkxiaofei/dummy-playground/tree/master/pack)
+| Wheels      | Description                                                                      |
+| ----------- | -------------------------------------------------------------------------------- |
+| pack        | A simple package tool support ESM and Commonjs                                   |
+| react       | Minimal implementation of react(prior to 16)                                     |
+| redux       | Deep dive into redux implementation                                              |
+| react-redux | Deep dive into react-redux implementation                                        |
+| http        | A http request tool works for both browser and Node.js, imitating from Axios     |
+| data-loader | Minimal implemenation of Data Loalder which can work alongside GraghQL connector |
 
-[2.React最小实现](https://github.com/kkkkkxiaofei/dummy-playground/tree/master/react)
-
-[3.Redux最小实现](https://github.com/kkkkkxiaofei/dummy-playground/tree/master/redux)
-
-[4.React-Redux最小实现](https://github.com/kkkkkxiaofei/dummy-playground/tree/master/react-redux)
-
-TODO:
-
-1.一个通用的request
-
-2.一个简单的React表单工具
-
-3.一个自定义控件的视频组件（支持弹幕）
-
-[发包测试](https://bundlephobia.com)
+[Analyze package](https://bundlephobia.com)
